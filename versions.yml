@@ -1,0 +1,49 @@
+"4.5":
+  downloads: 
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.5/joe-4.5.tar.gz/download"
+    windows: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.5/joewin-4.5.msi/download"
+    windows-src: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.5/joewin-4.5-src.zip/download"
+  tags:
+    unix: "cd1aaa3a0032407ffef792a5ef3e1783010f57d5"
+    windows: "5fbce59461957aaef591f49c4db73f0c8bd47e00"
+"4.4":
+  downloads: 
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.4/joe-4.4.tar.gz/download"
+    windows: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.4/joewin.msi/download"
+    windows-src: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.4/joewin-4.4-src.zip/download"
+  tags:
+    unix: "86cfaeb2cba7b2e0d7e94001c15fefbaec12fd2d"
+    windows: "95e2613a5900c4066698c25b7ef991fcf0077df7"
+"4.3":
+  downloads: 
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.3/joe-4.3.tar.gz/download"
+    windows: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.3/joewin.msi/download"
+    windows-src: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.3/joewin-4.3-src.zip/download"
+  tags:
+    unix: "d8d697fe67859dacd39b1339a9eaed5218a5360c"
+    windows: "90b786718ef4e1b1f7511c357320ea48fee46cca"
+"4.2":
+  downloads: 
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.2/joe-4.2.tar.gz/download"
+  tags:
+    unix: "78db5d333f1096d5b24f4fd6bc71deb15fc7fb61"
+"4.1":
+  downloads: 
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.1/joe-4.1.tar.gz/download"
+    windows: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.1/joewin.msi/download"
+    windows-src: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.1/joewin-4.1-src.zip/download"
+  tags:
+    unix: "ab72746ca433221a3cd8c493d6db38d94c1279f7"
+    windows: "4e486b7dd3753ae7f06021994418a003d64a3c5e"
+"4.0":
+  downloads: 
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.0/joe-4.0.tar.gz/download"
+  tags:
+    unix: "347fc8520d89a68eafa317b4cd6cac1707913506"
+"3.8":
+  downloads: 
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-3.8/joe-3.8.tar.gz/download"
+    windows: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/3.8/joewin.msi/download"
+    windows-src: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/3.8/joewin-src-3.8.zip/download"
+  tags:
+    windows: "3263fa92a86814a9607aa47579da76d38d7d426d"

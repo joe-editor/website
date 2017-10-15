@@ -1,0 +1,22 @@
+{
+  "name": "joe-site",
+  "description": "website for JOE's editor",
+  "main": "index.js",
+  "authors": [
+    "John J. Jordan <jj@jjjordan.io>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "strapdown": "*",
+    "bootstrap": "3"
+  }
+}
