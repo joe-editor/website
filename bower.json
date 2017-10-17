@@ -16,7 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "strapdown": "*",
     "bootstrap": "3"
   }
 }

@@ -10,12 +10,17 @@
   "license": "ISC",
   "dependencies": {
     "bower": "^1.8.2",
-    "event-stream": "^3.3.4",
-    "grunt": "^1.0.1",
+    "ejs": "^2.5.7",
     "gulp": "^3.9.1",
     "gulp-hg": "^1.0.5",
     "gulp-inject": "^4.3.0",
+    "gulp-lock": "0.0.3",
+    "gulp-util": "^3.0.8",
     "js-yaml": "^3.10.0",
-    "main-bower-files": "^2.13.1"
+    "lodash": "^4.17.4",
+    "main-bower-files": "^2.13.1",
+    "marked": "^0.3.6",
+    "stream-to-array": "^2.3.0",
+    "urijs": "^1.19.0"
   }
 }
