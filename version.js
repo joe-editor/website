@@ -8,9 +8,9 @@ function vcmp(x, y) {
     var yparts = y.split(".");
     
     for (var i = 0; i < Math.min(xparts.length, yparts.length); i++) {
-        if (parseInt(x) < parseInt(y)) {
+        if (parseInt(xparts[i]) < parseInt(yparts[i])) {
             return -1;
-        } else if (parseInt(x) > parseInt(y)) {
+        } else if (parseInt(xparts[i]) > parseInt(yparts[i])) {
             return 1;
         }
     }
@@ -28,18 +28,10 @@ var versions = Object.keys(versionInfo);
 versions.sort(vcmp);
 versions.reverse();
 
-var stache = versions.map(function(v) {
-    return {
-        version: v,
-        info: versionInfo[v],
-    };
-});
-
 const version = {
     versions: versions,
     info: versionInfo,
     latest: versions[0],
-    stache: stache,
     hasWindows: function(v) {
         return this.info[v].tags && this.info[v].tags.windows;
     },
@@ -47,5 +39,19 @@ const version = {
         return this.info[v].tags && this.info[v].tags.unix;
     },
 };
+
+for (var i = 0; i < versions.length; i++) {
+    if (version.hasUnix(versions[i])) {
+        version.latestUnix = versions[i];
+        break;
+    }
+}
+
+for (var i = 0; i < versions.length; i++) {
+    if (version.hasWindows(versions[i])) {
+        version.latestWindows = versions[i];
+        break;
+    }
+}
 
 module.exports = version;

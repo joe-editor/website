@@ -4,7 +4,8 @@ const marked = require('marked'),
       gutil = require('gulp-util'),
       _ = require('lodash'),
       URI = require('urijs'),
-      through = require('through2');
+      through = require('through2'),
+      version = require('./version');
 
 // https://github.com/mitsuruog/gulp-markdown2bootstrap/blob/master/index.js
 
@@ -35,6 +36,7 @@ function convertmd(templateStream, options) {
             var vars = {
                 toc: toc,
                 content: data,
+                versions: version,
             };
             
             templates.then((tmpl) => {

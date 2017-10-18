@@ -7,6 +7,8 @@ const gulp = require('gulp'),
 
 var hgLock = lock();
 
+// Gather each version by checking out repo to the commit listed in versions.yml,
+// then copying markdown files into intermediate/md
 version.versions.forEach(function (v) {
     // Grab .md files for this version --> put them in intermediate/md/<version>
     gulp.task('gather-unix-' + v, ['get-joe'], hgLock.cb((done) => {
@@ -39,14 +41,10 @@ version.versions.forEach(function (v) {
 // Depend on all gather-* tasks above.
 gulp.task('gather', version.versions.map((v) => 'gather-unix-' + v).concat(version.versions.map((v) => 'gather-windows-' + v)));
 
-// Render man.md with marked against manual.mustache --> put in intermediate/dist/<version>/man.md.html
+// Render all man.md's with marked against templates/manual.ejs --> put in intermediate/dist/<version>/man.html
 gulp.task('manuals', ['gather'], function() {
     return gulp.src(['intermediate/md/**/man.md'], {base: './intermediate/md'})
-               .pipe(utils.convertmd(gulp.src('templates/manual.ejs'), {
-                       ejs: {
-                           versions: version.stache,
-                       },
-                   }))
+               .pipe(utils.convertmd(gulp.src('templates/manual.ejs')))
                .pipe(gulp.dest('intermediate/dist'));
 });
 
