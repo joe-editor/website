@@ -4,6 +4,10 @@ const gulp = require('gulp'),
       version = require('./version'),
       lock = require('gulp-lock'),
       rename = require('gulp-rename'),
+      bower = require('gulp-bower'),
+      mainBowerFiles = require('main-bower-files'),
+      inject = require('gulp-inject'),
+      filter = require('gulp-filter'),
       utils = require('./utils');
 
 // Lock for tasks that use the Mercurial repository
@@ -101,10 +105,38 @@ gulp.task('md:index', ['gather-tip'], () => {
 // Task that groups all markdown conversion
 gulp.task('markdown', ['md:manuals', 'md:news', 'md:releases', 'md:hacking', 'md:index']);
 
+// Gets bower dependencies
+gulp.task('bower:get', () => {
+    return bower();
+});
+
+// Copies JS bower dependencies to dist
+gulp.task('bower:js', ['bower:get'], () => {
+    return gulp.src(mainBowerFiles())
+               .pipe(filter(['**/*.js']))
+               .pipe(gulp.dest('./dist/js'));
+});
+
+// Copies CSS bower dependencies to dist
+gulp.task('bower:css', ['bower:get'], () => {
+    return gulp.src(mainBowerFiles())
+               .pipe(filter('**/*.css'))
+               .pipe(gulp.dest('./dist/css'));
+});
+
+// All bower tasks
+gulp.task('bower', ['bower:css', 'bower:js']);
+
+// Injects bower files from templatized html files --> put the results in ./dist
+gulp.task('inject', ['bower', 'markdown'], () => {
+    return gulp.src(['intermediate/dist/**/*.html'], {base: 'intermediate/dist'})
+               .pipe(inject(gulp.src(['./dist/js/*.js'], {read: false, base: './dist'})))
+               .pipe(gulp.dest('./dist'));
+});
+
 // Task that copies images from img --> dist/img
 gulp.task('images', () => {
     return gulp.src(['img/*'], {read: false}).pipe(gulp.dest('dist'));
 });
 
-
-gulp.task('default', ['markdown']);
+gulp.task('default', ['markdown', 'inject']);
