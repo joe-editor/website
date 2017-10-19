@@ -8,16 +8,16 @@
   </head>
   <body style="margin-top:65px">
     <!-- Navigation bar -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">Joe's Own Editor</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary fixed-top">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <a class="navbar-brand" href="/">Joe's Own Editor</a>
       
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="https://sourceforge.net/p/joe-editor" id="downloadsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download</a>
+            <a class="nav-link dropdown-toggle" href="#" id="downloadsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download</a>
             <div class="dropdown-menu" aria-labelledby="downloadsDropdown">
               <a class="dropdown-item" href="<%= versions.info[versions.latestUnix].downloads.unix %>">JOE <%= versions.latestUnix %> source</a>
               <a class="dropdown-item" href="<%= versions.info[versions.latestWindows].downloads.windows %>">JOE for Windows <%= versions.latestUnix %></a>
@@ -31,13 +31,13 @@
             <a class="nav-link" href="/hacking.html">Hacking Guide</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/news.html">Changelog</a>
+            <a class="nav-link" href="/NEWS.html">Changelog</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/history.html">History</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="https://sourceforge.net/p/joe-editor" id="releasesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Releases</a>
+            <a class="nav-link dropdown-toggle" href="#" id="releasesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Releases</a>
             <div class="dropdown-menu" aria-labelledby="releasesDropdown">
 <% versions.versions.forEach(function(v) { %>
               <a class="dropdown-item" href="/<%= v %>/"><%= v %></a>
@@ -45,7 +45,7 @@
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="https://sourceforge.net/p/joe-editor" id="projectsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</a>
+            <a class="nav-link dropdown-toggle" href="#" id="projectsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</a>
             <div class="dropdown-menu" aria-labelledby="projectsDropdown">
               <a class="dropdown-item" href="https://sourceforge.net/p/joe-editor">Project at SourceForge</a>
               <a class="dropdown-item" href="https://sourceforge.net/p/joe-editor/bugs/">Issues</a>

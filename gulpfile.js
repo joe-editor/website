@@ -4,11 +4,12 @@ const gulp = require('gulp'),
       version = require('./version'),
       lock = require('gulp-lock'),
       rename = require('gulp-rename'),
-      bower = require('gulp-bower'),
-      mainBowerFiles = require('main-bower-files'),
+      yarn = require('gulp-yarn'),
       inject = require('gulp-inject'),
       filter = require('gulp-filter'),
       utils = require('./utils');
+
+const theme = 'cerulean'; // Bootswatch theme
 
 // Lock for tasks that use the Mercurial repository
 var hgLock = lock();
@@ -55,8 +56,8 @@ version.versions.forEach(function (v) {
 
 // Get documents at the tip version (for changelog and README)
 gulp.task('gather-tip', hgLock.cb((done) => {
-    return hg.update({cwd: './joe'}, (out, err) => {
-        gulp.src(['joe/README.md', 'joe/NEWS.md', 'joe/docs/man.md', 'joe/docs/hacking.md'])
+    return hg.update('default', {cwd: './joe'}, (out, err) => {
+        gulp.src(['joe/README.md', 'joe/NEWS.md', 'joe/docs/man.md', 'joe/docs/hacking.md', 'joe/docs/history.md'])
             .pipe(gulp.dest('intermediate/md/tip/'))
             .on('end', done);
     });
@@ -94,6 +95,12 @@ gulp.task('md:hacking', ['gather-tip'], () => {
                .pipe(gulp.dest('intermediate/dist'));
 });
 
+gulp.task('md:history', ['gather-tip'], () => {
+    return gulp.src(['intermediate/md/tip/history.md'])
+               .pipe(utils.convertmd(gulp.src('templates/history.ejs')))
+               .pipe(gulp.dest('intermediate/dist'));
+});
+
 // Render index from the tip's README --> put in intermediate/dist/index.html
 gulp.task('md:index', ['gather-tip'], () => {
     return gulp.src(['intermediate/md/tip/README.md'])
@@ -103,34 +110,35 @@ gulp.task('md:index', ['gather-tip'], () => {
 });
 
 // Task that groups all markdown conversion
-gulp.task('markdown', ['md:manuals', 'md:news', 'md:releases', 'md:hacking', 'md:index']);
-
-// Gets bower dependencies
-gulp.task('bower:get', () => {
-    return bower();
-});
+gulp.task('markdown', ['md:manuals', 'md:news', 'md:releases', 'md:hacking', 'md:history', 'md:index']);
 
 // Copies JS bower dependencies to dist
-gulp.task('bower:js', ['bower:get'], () => {
-    return gulp.src(mainBowerFiles())
-               .pipe(filter(['**/*.js']))
+gulp.task('deps:js', () => {
+    return gulp.src(["node_modules/jquery/dist/jquery.min.js", 
+                     "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                     "node_modules/tether/dist/js/tether.min.js"])
                .pipe(gulp.dest('./dist/js'));
 });
 
 // Copies CSS bower dependencies to dist
-gulp.task('bower:css', ['bower:get'], () => {
-    return gulp.src(mainBowerFiles())
-               .pipe(filter('**/*.css'))
+gulp.task('deps:css', () => {
+    return gulp.src([`node_modules/bootswatch/${theme}/bootstrap.min.css`])
+//    return gulp.src([`node_modules/bootstrap/dist/css/bootstrap.min.css`]) // Default theme
                .pipe(gulp.dest('./dist/css'));
 });
 
 // All bower tasks
-gulp.task('bower', ['bower:css', 'bower:js']);
+gulp.task('deps', ['deps:css', 'deps:js']);
 
 // Injects bower files from templatized html files --> put the results in ./dist
-gulp.task('inject', ['bower', 'markdown'], () => {
+gulp.task('inject', ['deps', 'markdown'], () => {
+    const ignorePaths = ["intermediate/dist", "dist"];
+    
     return gulp.src(['intermediate/dist/**/*.html'], {base: 'intermediate/dist'})
-               .pipe(inject(gulp.src(['./dist/js/*.js'], {read: false, base: './dist'})))
+               // Make sure jQuery comes first.  Otherwise, this breaks.
+               .pipe(inject(gulp.src('./dist/js/jquery.min.js', {read: false}), {starttag: '<!-- inject:jquery:{{ext}} -->', ignorePath: ignorePaths})) // Make sure jquery comes first
+               .pipe(inject(gulp.src(['./dist/js/*.js', '!./dist/js/jquery.min.js'], {read: false}), {ignorePath: ignorePaths}))
+               .pipe(inject(gulp.src('./dist/css/*.css', {read: false}), {ignorePath: ignorePaths}))
                .pipe(gulp.dest('./dist'));
 });
 
