@@ -15,6 +15,7 @@
     "gulp-hg": "^1.0.5",
     "gulp-inject": "^4.3.0",
     "gulp-lock": "0.0.3",
+    "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.8",
     "js-yaml": "^3.10.0",
     "lodash": "^4.17.4",

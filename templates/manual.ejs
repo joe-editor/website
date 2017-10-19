@@ -6,9 +6,10 @@
       <div class="panel panel-default">
         <div class="panel-heading">Table of Contents</div>
         <div class="list-group">
-          <% toc.forEach(section => { %>
-            <a href="#<%= section.anchor %>" class="list-group-item"><%= section.text %></a>
-          <% }) %>
+          <% toc.forEach(section => {
+                 if (section.level < 3) { %>
+            <a href="#<%= section.anchor %>" class="list-group-item"><% for (var i = 1; i < section.level; i++) { %>&nbsp;&nbsp;<% } %><%= section.text %></a>
+          <% }}) %>
         </div>
       </div>
     </div>
