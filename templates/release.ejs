@@ -1,21 +1,47 @@
 <%- include('./header.ejs', {versions: versions, title: current, description: "Joe's Own Editor version " + current}) -%>
 
-<div class="container">
-  <div class="row">
-    <h1>JOE version <%= current %></h1>
-  </div>
-  <div class="row">
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">JOE version <%= current %></h1>
 <% if (versions.hasUnix(current)) { %>
-    Download source: <%= versions.info[current].downloads.unix %>
+    <p>&raquo; Released on <%= moment(versions.info[current].release.unix).format('DD MMM YYYY') %></p>
+<% } else { %>
+    <p>&raquo; Released on <%= moment(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
+<% } %>
+    <p>
+<% if (versions.hasUnix(current)) { %>
+      <a class="btn btn-primary btn-lg" href="<%= versions.info[current].downloads.unix %>">Download JOE <%= current %> Source</a>
 <% } %>
 <% if (versions.hasWindows(current)) { %>
-    Download Windows installer: <%= versions.info[current].downloads.windows %>
-    Download Windows source: <%= versions.info[current].downloads['windows-src'] %>
+      <a class="btn btn-primary btn-lg" href="<%= versions.info[current].downloads.windows %>">Download JOE <%= current %> Windows Installer</a>
+<% } %>
+    </p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Documentation</h2>
+      <p>Be sure to read the user manual for this version.</p>
+      <p><a class="btn btn-secondary" href="man.html">Read the user manual</a></p>
+    </div>
+<% if (versions.hasWindows(current)) { %>
+    <div class="col-md-4">
+      <h2>Windows version</h2>
+      <p>&raquo; Released on <%= moment(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
+      <p>&raquo; Download the <a href="<%= versions.info[current].downloads['windows-src'] %>">Windows source code</a></p>
+      <p><a class="btn btn-secondary" href="windows.html">Read tips for the Windows version</a></p>
+    </div>
 <% } %>
   </div>
-  <div class="row">
+</div>
+
+<hr>
+
+<div class="container">
+<h2>Release Notes</h2>
 <%- content %>
-  </div>
 </div>
 
 <%- include('./footer.ejs') -%>

@@ -5,10 +5,12 @@ const marked = require('marked'),
       _ = require('lodash'),
       URI = require('urijs'),
       through = require('through2'),
+      moment = require('moment'),
       version = require('./version');
 
 // https://github.com/mitsuruog/gulp-markdown2bootstrap/blob/master/index.js
 
+// Inputs markdown data, accepts a template as an argument and renders to html.
 function convertmd(templateStream, options) {
     var templates = streamToArray(templateStream);
     
@@ -28,18 +30,22 @@ function convertmd(templateStream, options) {
         var toc = [];
         var renderer = makeRenderer(toc);
         
+        // Markdown compile
         marked(file.contents.toString(), _.merge(markedOptions, {renderer: renderer}), (err, data) => {
             if (err) {
                 return cb(err, null);
             }
             
+            // One of the dodgier bits, I'll admit.
             var vars = {
                 toc: toc,
                 content: data,
                 versions: version,
                 current: getVersionFromPath(file.path),
+                moment: moment,
             };
             
+            // EJS compile
             templates.then((tmpl) => {
                 file.contents = new Buffer(ejs.render(tmpl[0].contents.toString(), _.merge(ejsOptions, vars), {filename: tmpl[0].path}));
                 file.path = gutil.replaceExtension(file.path, '.html');
@@ -56,6 +62,7 @@ function getVersionFromPath(path) {
     return (lastSlash < 0 || secondLastSlash < 0) ? "" : path.substr(secondLastSlash + 1, lastSlash - secondLastSlash - 1);
 }
 
+// Builds a marked renderer to customize some of the output elements
 function makeRenderer(toc) {
     var renderer = new marked.Renderer();
     
@@ -130,6 +137,7 @@ function stripTOC() {
     });
 }
 
+// Extracts only sections related to the version found in the file path.
 function extractVersionChanges() {
     return through.obj((file, enc, cb) => {
         var ver = getVersionFromPath(file.path);

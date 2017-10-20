@@ -24,6 +24,7 @@
     "js-yaml": "^3.10.0",
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
+    "moment": "^2.19.1",
     "stream-to-array": "^2.3.0",
     "urijs": "^1.19.0",
     "yarn": "^1.2.1"
