@@ -147,7 +147,7 @@ gulp.task('inject', ['deps', 'markdown'], () => {
 
 // Task that copies images from img --> dist/img
 gulp.task('images', () => {
-    return gulp.src(['img/*'], {read: false}).pipe(gulp.dest('dist'));
+    return gulp.src(['img/*'], {read: true}).pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('default', ['markdown', 'inject']);
+gulp.task('default', ['markdown', 'inject', 'images']);
