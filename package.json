@@ -11,6 +11,7 @@
   "dependencies": {
     "bootstrap": "4.0.0-alpha.6",
     "bootswatch": "4.0.0-alpha.6",
+    "browser-sync": "^2.18.13",
     "ejs": "^2.5.7",
     "gulp": "^3.9.1",
     "gulp-filter": "^5.0.1",

@@ -7,6 +7,7 @@ const gulp = require('gulp'),
       yarn = require('gulp-yarn'),
       inject = require('gulp-inject'),
       filter = require('gulp-filter'),
+      browserSync = require('browser-sync'),
       utils = require('./utils');
 
 const theme = 'flatly'; // Bootswatch theme
@@ -148,6 +149,23 @@ gulp.task('inject', ['deps', 'markdown'], () => {
 // Task that copies images from img --> dist/img
 gulp.task('images', () => {
     return gulp.src(['img/*'], {read: true}).pipe(gulp.dest('dist/img'));
+});
+
+// Reload target
+gulp.task('browser-reload', ['markdown', 'inject'], (done) => {
+    browserSync.reload();
+    done();
+});
+
+// Watch for changes and serve static content
+gulp.task('dev', ['default'], () => {
+    browserSync.init({
+        server: {
+            baseDir: "./dist",
+        }
+    });
+    
+    gulp.watch(['templates/*.ejs', 'versions.yml'], ['browser-reload']);
 });
 
 gulp.task('default', ['markdown', 'inject', 'images']);
