@@ -130,7 +130,34 @@ function stripTOC() {
     });
 }
 
+function extractVersionChanges() {
+    return through.obj((file, enc, cb) => {
+        var ver = getVersionFromPath(file.path);
+        var output = [];
+        let reading = false;
+        
+        file.contents.toString().split("\n").forEach(line => {
+            if (_.startsWith(line, "### ")) {
+                var idx = line.indexOf(ver);
+                if (idx > 0 && /\s|v/.test(line.charAt(idx - 1))) {
+                    reading = true;
+                } else {
+                    reading = false;
+                }
+            }
+            
+            if (reading) {
+                output.push(line);
+            }
+        });
+        
+        file.contents = Buffer.from(output.join("\n"));
+        return cb(null, file);
+    });
+}
+
 module.exports = {
     convertmd: convertmd,
     stripTOC: stripTOC,
+    extractVersionChanges: extractVersionChanges,
 };

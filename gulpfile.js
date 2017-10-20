@@ -84,6 +84,7 @@ gulp.task('md:news', ['gather-tip'], () => {
 // Render news.md for each version, splitting out only that version's changes --> put in intermediate/dist/<version>/index.html
 gulp.task('md:releases', ['gather'], () => {
     return gulp.src(['intermediate/md/**/NEWS.md', '!intermediate/md/tip/**/*'], {base: './intermediate/md'})
+               .pipe(utils.extractVersionChanges())
                .pipe(utils.convertmd(gulp.src('templates/release.ejs')))
                .pipe(rename({basename: "index"}))
                .pipe(gulp.dest('intermediate/dist'));
