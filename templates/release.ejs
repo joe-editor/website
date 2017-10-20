@@ -1,3 +1,18 @@
-<%- include('./header.ejs', {versions: versions, title: "Changelog", description: "Joe's Own Editor Changelog"}) -%>
-(stub)
+<%- include('./header.ejs', {versions: versions, title: current, description: "Joe's Own Editor version " + current}) -%>
+
+<div class="container">
+  <div class="row">
+    <h1>JOE version <%= current %></h1>
+  </div>
+  <div class="row">
+<% if (versions.hasUnix(current)) { %>
+    Download source: <%= versions.info[current].downloads.unix %>
+<% } %>
+<% if (versions.hasWindows(current)) { %>
+    Download Windows installer: <%= versions.info[current].downloads.windows %>
+    Download Windows source: <%= versions.info[current].downloads['windows-src'] %>
+<% } %>
+  </div>
+</div>
+
 <%- include('./footer.ejs') -%>

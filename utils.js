@@ -37,6 +37,7 @@ function convertmd(templateStream, options) {
                 toc: toc,
                 content: data,
                 versions: version,
+                current: getVersionFromPath(file.path),
             };
             
             templates.then((tmpl) => {
@@ -46,6 +47,13 @@ function convertmd(templateStream, options) {
             });
         });
     });
+}
+
+function getVersionFromPath(path) {
+    // paths are generally /foo/bar/<version>/file -- get the <version> out
+    var lastSlash = path.lastIndexOf('/');
+    var secondLastSlash = path.lastIndexOf('/', lastSlash - 1);
+    return (lastSlash < 0 || secondLastSlash < 0) ? "" : path.substr(secondLastSlash + 1, lastSlash - secondLastSlash - 1);
 }
 
 function makeRenderer(toc) {
@@ -84,15 +92,45 @@ function makeRenderer(toc) {
         var slash = path.lastIndexOf("/");
         var fileName = path.substring(slash + 1);
         if (_.endsWith(fileName, '.md')) {
-            return oldLink(gutil.replaceExtension(fileName, '.html'), title, text);
-        } else {
-            return oldLink(href, title, text);
+            var translated = translateLink(fileName);
+            if (translated) {
+                return oldLink(translated, title, text);
+            }
         }
+        
+        return oldLink(href, title, text);
     };
     
     return renderer;
 }
 
+// Translates links to .md files (usually pointing into the mercurial tree)
+// to links within *this* site, if possible
+function translateLink(filename) {
+    return gutil.replaceExtension(filename, '.html');
+}
+
+// Strips out [TOC] from documents
+function stripTOC() {
+    return through.obj((file, enc, cb) => {
+        const st = '[TOC]';
+        var buf = file.contents;
+        
+        var start = buf.indexOf(st), end = -1;
+        if (start < 0) {
+            return cb(null, file);
+        }
+        
+        // Also remove all whitespace after [TOC]
+        for (end = start + st.length; /\s/.test(String.fromCharCode(buf[end])); end++) {}
+        
+        // Splice out [TOC]
+        file.contents = Buffer.concat([buf.slice(0, start), buf.slice(end)]);
+        return cb(null, file);
+    });
+}
+
 module.exports = {
     convertmd: convertmd,
+    stripTOC: stripTOC,
 };

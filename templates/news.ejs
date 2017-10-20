@@ -1,3 +1,20 @@
 <%- include('./header.ejs', {versions: versions, title: "Changelog", description: "Joe's Own Editor Changelog"}) -%>
-(stub)
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">Table of Contents</div>
+        <div class="list-group">
+          <% toc.forEach(section => {
+                 if (section.level == 3) { %>
+            <a href="#<%= section.anchor %>" class="list-group-item"><%= section.text %></a>
+          <% }}) %>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <%- content -%>
+    </div>
+  </div>
+</div>
 <%- include('./footer.ejs') -%>

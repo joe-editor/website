@@ -9,7 +9,7 @@ const gulp = require('gulp'),
       filter = require('gulp-filter'),
       utils = require('./utils');
 
-const theme = 'cerulean'; // Bootswatch theme
+const theme = 'flatly'; // Bootswatch theme
 
 // Lock for tasks that use the Mercurial repository
 var hgLock = lock();
@@ -69,6 +69,7 @@ gulp.task('gather', version.versions.map((v) => 'gather-unix-' + v).concat(versi
 // Render all man.md's with marked against templates/manual.ejs --> put in intermediate/dist/<version>/man.html
 gulp.task('md:manuals', ['gather'], () => {
     return gulp.src(['intermediate/md/**/man.md'], {base: './intermediate/md'})
+               .pipe(utils.stripTOC())
                .pipe(utils.convertmd(gulp.src('templates/manual.ejs')))
                .pipe(gulp.dest('intermediate/dist'));
 });
@@ -82,7 +83,7 @@ gulp.task('md:news', ['gather-tip'], () => {
 
 // Render news.md for each version, splitting out only that version's changes --> put in intermediate/dist/<version>/index.html
 gulp.task('md:releases', ['gather'], () => {
-    return gulp.src(['intermediate/md/**/NEWS.md'], {base: './intermediate/md'})
+    return gulp.src(['intermediate/md/**/NEWS.md', '!intermediate/md/tip/**/*'], {base: './intermediate/md'})
                .pipe(utils.convertmd(gulp.src('templates/release.ejs')))
                .pipe(rename({basename: "index"}))
                .pipe(gulp.dest('intermediate/dist'));
@@ -91,6 +92,7 @@ gulp.task('md:releases', ['gather'], () => {
 // Render hacking guide for the tip version --> put in intermediate/dist/hacking.html
 gulp.task('md:hacking', ['gather-tip'], () => {
     return gulp.src(['intermediate/md/tip/hacking.md'])
+               .pipe(utils.stripTOC())
                .pipe(utils.convertmd(gulp.src('templates/hacking.ejs')))
                .pipe(gulp.dest('intermediate/dist'));
 });
