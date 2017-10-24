@@ -2,7 +2,7 @@
 
 <div class="jumbotron">
   <div class="container">
-    <h1 class="display-4">JOE version <%= current %></h1>
+    <h1 class="display-4">JOE <%= current %></h1>
 <% if (versions.hasUnix(current)) { %>
     <p>&raquo; Released on <%= moment(versions.info[current].release.unix).format('DD MMM YYYY') %></p>
 <% } else { %>
@@ -21,16 +21,19 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
       <h2>Documentation</h2>
       <p>Be sure to read the user manual for this version.</p>
       <p><a class="btn btn-secondary" href="man.html">Read the user manual</a></p>
     </div>
 <% if (versions.hasWindows(current)) { %>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <h2>Windows version</h2>
       <p>&raquo; Released on <%= moment(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
-      <p>&raquo; Download the <a href="<%= versions.info[current].downloads['windows-src'] %>">Windows source code</a></p>
+      <p>&raquo; Download the <a href="<%= versions.info[current].downloads.windowsSrc %>">Windows source code</a></p>
+<% if (versions.info[current].downloads.windowsStandalone) { %>
+      <p>&raquo; Download a <a href="<%= versions.info[current].downloads.windowsStandalone %>">standalone version</a></p>
+<% } %>
       <p><a class="btn btn-secondary" href="windows.html">Read tips for the Windows version</a></p>
     </div>
 <% } %>
