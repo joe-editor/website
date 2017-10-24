@@ -113,8 +113,15 @@ gulp.task('md:index', ['gather-tip'], () => {
                .pipe(gulp.dest('intermediate/dist'));
 });
 
+// Render windows.md for each release --> put in intermediate/dist/<version>/windows.html
+gulp.task('md:windows', ['gather'], () => {
+    return gulp.src(['intermediate/md/**/windows.md'], {base: './intermediate/md'})
+               .pipe(utils.convertmd(gulp.src('templates/windows.ejs')))
+               .pipe(gulp.dest('intermediate/dist'));
+});
+
 // Task that groups all markdown conversion
-gulp.task('markdown', ['md:manuals', 'md:news', 'md:releases', 'md:hacking', 'md:history', 'md:index']);
+gulp.task('markdown', ['md:manuals', 'md:news', 'md:releases', 'md:hacking', 'md:history', 'md:index', 'md:windows']);
 
 // Copies JS bower dependencies to dist
 gulp.task('deps:js', () => {
