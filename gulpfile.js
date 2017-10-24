@@ -8,6 +8,8 @@ const gulp = require('gulp'),
       inject = require('gulp-inject'),
       filter = require('gulp-filter'),
       browserSync = require('browser-sync'),
+      ejs = require('gulp-ejs'),
+      moment = require('moment'),
       utils = require('./utils');
 
 const theme = 'flatly'; // Bootswatch theme
@@ -34,7 +36,7 @@ version.versions.forEach(function (v) {
         }
         
         return hg.update(version.info[v].tags.unix, {cwd: './joe'}, (out, err) => {
-            gulp.src(['joe/README.md', 'joe/NEWS.md', 'joe/docs/man.md', 'joe/docs/hacking.md'])
+            gulp.src(['joe/NEWS.md', 'joe/docs/man.md'])
                 .pipe(gulp.dest('intermediate/md/' + v))
                 .on('end', done);
         });
@@ -48,7 +50,13 @@ version.versions.forEach(function (v) {
         }
         
         return hg.update(version.info[v].tags.windows, {cwd: './joe'}, (out, err) => {
-            gulp.src(['joe/docs/windows.md'])
+            var files = ['joe/docs/windows.md'];
+            if (!version.hasUnix(v)) {
+                // If this is Windows-only, then take man.md.
+                files.push('joe/docs/man.md');
+                files.push('joe/NEWS.md');
+            }
+            gulp.src(files)
                 .pipe(gulp.dest('intermediate/md/' + v))
                 .on('end', done);
         });
@@ -58,7 +66,7 @@ version.versions.forEach(function (v) {
 // Get documents at the tip version (for changelog and README)
 gulp.task('gather-tip', hgLock.cb((done) => {
     return hg.update('default', {cwd: './joe'}, (out, err) => {
-        gulp.src(['joe/README.md', 'joe/NEWS.md', 'joe/docs/man.md', 'joe/docs/hacking.md', 'joe/docs/history.md'])
+        gulp.src(['joe/NEWS.md', 'joe/docs/hacking.md'])
             .pipe(gulp.dest('intermediate/md/tip/'))
             .on('end', done);
     });
@@ -99,20 +107,6 @@ gulp.task('md:hacking', ['gather-tip'], () => {
                .pipe(gulp.dest('intermediate/dist'));
 });
 
-gulp.task('md:history', ['gather-tip'], () => {
-    return gulp.src(['intermediate/md/tip/history.md'])
-               .pipe(utils.convertmd(gulp.src('templates/history.ejs')))
-               .pipe(gulp.dest('intermediate/dist'));
-});
-
-// Render index from the tip's README --> put in intermediate/dist/index.html
-gulp.task('md:index', ['gather-tip'], () => {
-    return gulp.src(['intermediate/md/tip/README.md'])
-               .pipe(utils.convertmd(gulp.src('templates/index.ejs')))
-               .pipe(rename("index.html"))
-               .pipe(gulp.dest('intermediate/dist'));
-});
-
 // Render windows.md for each release --> put in intermediate/dist/<version>/windows.html
 gulp.task('md:windows', ['gather'], () => {
     return gulp.src(['intermediate/md/**/windows.md'], {base: './intermediate/md'})
@@ -121,7 +115,21 @@ gulp.task('md:windows', ['gather'], () => {
 });
 
 // Task that groups all markdown conversion
-gulp.task('markdown', ['md:manuals', 'md:news', 'md:releases', 'md:hacking', 'md:history', 'md:index', 'md:windows']);
+gulp.task('markdown', ['md:manuals', 'md:news', 'md:releases', 'md:hacking', 'md:windows']);
+
+// Task to generate html files from templates that have no markdown input
+gulp.task('templates', () => {
+    return gulp.src(['templates/index.ejs', 'templates/history.ejs'])
+               .pipe(ejs({
+                   versions: version,
+                   moment: moment,
+               }))
+               .pipe(rename({extname: ".html"}))
+               .pipe(gulp.dest('intermediate/dist'));
+});
+
+// Generate all html
+gulp.task('html', ['markdown', 'templates']);
 
 // Copies JS bower dependencies to dist
 gulp.task('deps:js', () => {
@@ -142,7 +150,7 @@ gulp.task('deps:css', () => {
 gulp.task('deps', ['deps:css', 'deps:js']);
 
 // Injects bower files from templatized html files --> put the results in ./dist
-gulp.task('inject', ['deps', 'markdown'], () => {
+gulp.task('inject', ['deps', 'html'], () => {
     const ignorePaths = ["intermediate/dist", "dist"];
     
     return gulp.src(['intermediate/dist/**/*.html'], {base: 'intermediate/dist'})
@@ -159,7 +167,7 @@ gulp.task('images', () => {
 });
 
 // Reload target
-gulp.task('browser-reload', ['markdown', 'inject'], (done) => {
+gulp.task('browser-reload', ['html', 'inject'], (done) => {
     browserSync.reload();
     done();
 });
@@ -175,4 +183,4 @@ gulp.task('dev', ['default'], () => {
     gulp.watch(['templates/*.ejs', 'versions.yml'], ['browser-reload']);
 });
 
-gulp.task('default', ['markdown', 'inject', 'images']);
+gulp.task('default', ['html', 'inject', 'images']);

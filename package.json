@@ -14,6 +14,7 @@
     "browser-sync": "^2.18.13",
     "ejs": "^2.5.7",
     "gulp": "^3.9.1",
+    "gulp-ejs": "^3.0.1",
     "gulp-filter": "^5.0.1",
     "gulp-hg": "^1.0.5",
     "gulp-inject": "^4.3.0",
