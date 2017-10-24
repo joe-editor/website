@@ -15,19 +15,16 @@
     "ejs": "^2.5.7",
     "gulp": "^3.9.1",
     "gulp-ejs": "^3.0.1",
-    "gulp-filter": "^5.0.1",
     "gulp-hg": "^1.0.5",
     "gulp-inject": "^4.3.0",
     "gulp-lock": "0.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.8",
-    "gulp-yarn": "^1.0.1",
     "js-yaml": "^3.10.0",
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "moment": "^2.19.1",
     "stream-to-array": "^2.3.0",
-    "urijs": "^1.19.0",
-    "yarn": "^1.2.1"
+    "urijs": "^1.19.0"
   }
 }
