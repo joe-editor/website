@@ -8,8 +8,6 @@ const marked = require('marked'),
       moment = require('moment'),
       version = require('./version');
 
-// https://github.com/mitsuruog/gulp-markdown2bootstrap/blob/master/index.js
-
 // Inputs markdown data, accepts a template as an argument and renders to html.
 function convertmd(templateStream, options) {
     var templates = streamToArray(templateStream);
@@ -83,13 +81,12 @@ function makeRenderer(toc) {
         return `<table class="table table-bordered">\n<thead>\n${header}\n</thead>\n<tbody>\n${body}\n</tbody>\n</table>\n`;
     };
     
-    var oldImage = renderer.image.bind(renderer);
     renderer.image = (href, title, text) => {
         // Relocate all images to /img/<filename> -- assume that we have it.
         var path = URI(href).path();
         var slash = path.lastIndexOf("/");
         var newPath = "/img/" + path.substring(slash + 1);
-        return oldImage(newPath, title, text);
+        return `<img src="${newPath}" alt="${text}" class="img-fluid">`;
     };
     
     var oldLink = renderer.link.bind(renderer);
