@@ -92,17 +92,7 @@ function makeRenderer(toc) {
     var oldLink = renderer.link.bind(renderer);
     renderer.link = (href, title, text) => {
         // Assume that we've converted all the markdown files to html and they're local.
-        var path = URI(href).path();
-        var slash = path.lastIndexOf("/");
-        var fileName = path.substring(slash + 1);
-        if (_.endsWith(fileName, '.md')) {
-            var translated = translateLink(fileName);
-            if (translated) {
-                return oldLink(translated, title, text);
-            }
-        }
-        
-        return oldLink(href, title, text);
+        return oldLink(translateLink(href), title, text);
     };
     
     return renderer;
@@ -110,8 +100,26 @@ function makeRenderer(toc) {
 
 // Translates links to .md files (usually pointing into the mercurial tree)
 // to links within *this* site, if possible
-function translateLink(filename) {
-    return gutil.replaceExtension(filename, '.html');
+function translateLink(href) {
+    var uri = URI(href);
+    var path = uri.path();
+    var slash = path.lastIndexOf("/");
+    var fileName = path.substring(slash + 1);
+    if (_.endsWith(fileName, '.md')) {
+        if (uri.hostname() && uri.hostname().indexOf('sourceforge') < 0) {
+            return href;
+        }
+        
+        uri = uri.hostname(null).protocol(null);
+        
+        if (fileName === "README.md") {
+            return uri.path('/index.html').toString();
+        } else {
+            return uri.path(gutil.replaceExtension(fileName, '.html')).toString();
+        }
+    }
+    
+    return href;
 }
 
 // Strips out [TOC] from documents
