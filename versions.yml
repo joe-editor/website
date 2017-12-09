@@ -8,7 +8,7 @@
     windowsSrc: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.5/joewin-4.5-src.zip/download"
     windowsStandalone: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.5/Standalone/"
   tags:
-    unix: "7fa7da658fd115d77d68f74e84705e2b2544260c"
+    unix: "8c23237a5747f05bc2e1f70e679310a6f7629d72"
     windows: "5fbce59461957aaef591f49c4db73f0c8bd47e00"
 "4.4":
   release:
