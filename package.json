@@ -25,6 +25,7 @@
     "marked": "^0.3.6",
     "moment": "^2.19.1",
     "stream-to-array": "^2.3.0",
+    "tocbot": "^4.0.0",
     "urijs": "^1.19.0"
   }
 }

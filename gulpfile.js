@@ -133,13 +133,15 @@ gulp.task('html', ['markdown', 'templates']);
 gulp.task('deps:js', () => {
     return gulp.src(["node_modules/jquery/dist/jquery.min.js", 
                      "node_modules/bootstrap/dist/js/bootstrap.min.js",
-                     "node_modules/tether/dist/js/tether.min.js"])
+                     "node_modules/tether/dist/js/tether.min.js",
+                     "node_modules/tocbot/dist/tocbot.min.js"])
                .pipe(gulp.dest('./dist/js'));
 });
 
 // Copies CSS bower dependencies to dist
 gulp.task('deps:css', () => {
-    return gulp.src([`node_modules/bootswatch/${theme}/bootstrap.min.css`])
+    return gulp.src([`node_modules/bootswatch/${theme}/bootstrap.min.css`,
+                     "node_modules/tocbot/dist/tocbot.css"])
 //    return gulp.src([`node_modules/bootstrap/dist/css/bootstrap.min.css`]) // Default theme
                .pipe(gulp.dest('./dist/css'));
 });
