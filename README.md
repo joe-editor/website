@@ -14,6 +14,8 @@ important dependent packages are:
 * [ejs](http://ejs.co/) - Templating engine
 * [gulp-inject](https://www.npmjs.com/package/gulp-inject) - Injects
   referenced assets into html.
+* [tocbot](https://github.com/tscanlin/tocbot/) - For responsive tables
+  of contents on manual, hacking, and install instructions pages.
 
 ## Usage
 

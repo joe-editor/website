@@ -150,14 +150,13 @@ gulp.task('deps:js', () => {
 gulp.task('deps:css', () => {
     return gulp.src([`node_modules/bootswatch/${theme}/bootstrap.min.css`,
                      "node_modules/tocbot/dist/tocbot.css"])
-//    return gulp.src([`node_modules/bootstrap/dist/css/bootstrap.min.css`]) // Default theme
                .pipe(gulp.dest('./dist/css'));
 });
 
 // All bower tasks
 gulp.task('deps', ['deps:css', 'deps:js']);
 
-// Injects bower files from templatized html files --> put the results in ./dist
+// Injects assets into templatized html files --> put the results in ./dist
 gulp.task('inject', ['deps', 'html'], () => {
     const ignorePaths = ["intermediate/dist", "dist"];
     
