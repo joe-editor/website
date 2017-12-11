@@ -6,6 +6,17 @@
     <meta name="description" content="Joe's Own Editor <%- description || title %>"></meta>
     <!-- inject:css -->
     <!-- endinject -->
+    <style>
+    .nav-target::before {
+    	/* Compensate for top nav bar */
+    	height: 85px;
+    	margin-top: -85px;
+    	visibility: hidden;
+    	display: block;
+    	content: " ";
+    	pointer-events: none;
+    }
+    </style>
   </head>
   <body style="padding-top:70px">
     <!-- Navigation bar -->
@@ -18,7 +29,7 @@
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="downloadsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download</a>
+            <a class="nav-link dropdown-toggle" href="" id="downloadsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download</a>
             <div class="dropdown-menu" aria-labelledby="downloadsDropdown">
               <a class="dropdown-item" href="<%= versions.info[versions.latestUnix].downloads.unix %>">JOE <%= versions.latestUnix %> source</a>
               <div class="dropdown-divider"></div>
@@ -33,7 +44,7 @@
             <a class="nav-link" href="/NEWS.html">Changelog</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="releasesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Releases</a>
+            <a class="nav-link dropdown-toggle" href="" id="releasesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Releases</a>
             <div class="dropdown-menu" aria-labelledby="releasesDropdown">
 <% versions.versions.forEach(function(v) { %>
               <a class="dropdown-item" href="/<%= v %>/"><%= v %></a>
@@ -47,7 +58,7 @@
             <a class="nav-link" href="/history.html">History</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="projectsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</a>
+            <a class="nav-link dropdown-toggle" href="" id="projectsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</a>
             <div class="dropdown-menu" aria-labelledby="projectsDropdown">
               <a class="dropdown-item" href="https://sourceforge.net/p/joe-editor">Project at SourceForge</a>
               <a class="dropdown-item" href="https://sourceforge.net/p/joe-editor/bugs/">Issues</a>

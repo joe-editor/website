@@ -1,0 +1,25 @@
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8" id="md-contents">
+          <%- content -%>
+        </div>
+        <div class="col-sm-4 offset-sm-8 sidebar hidden-xs-down h-100" style="position:fixed; overflow-x:hidden;">
+          <div class="" id="md-toc">
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- inject:jquery:js -->
+    <!-- endinject -->
+    <!-- inject:js -->
+    <!-- endinject -->
+    <script>
+      tocbot.init({
+        tocSelector: '#md-toc',
+        contentSelector: '#md-contents',
+        headingSelector: 'h1, h2, h3, h4',
+      });
+    </script>
+  </body>
+</html>

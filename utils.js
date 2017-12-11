@@ -74,8 +74,8 @@ function makeRenderer(toc) {
             level: level,
             text: raw,
         });
-        
-        return `<a class="anchor" id="${slug}"><h${level}><a name="${slug}" class="text-muted" href="#">${text}</h${level}></a>`;
+
+        return `<h${level} id="${slug}" class="nav-target"><a name="${slug}" class="text-muted" href="#${slug}">${text}</a></h${level}>`;
     };
     renderer.table = (header, body) => {
         return `<table class="table table-bordered">\n<thead>\n${header}\n</thead>\n<tbody>\n${body}\n</tbody>\n</table>\n`;

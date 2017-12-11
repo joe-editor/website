@@ -1,27 +1,2 @@
 <%- include('./header.ejs', {versions: versions, title: "User Manual", description: "Joe's Own Editor User Manual"}) -%>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8" id="man-contents">
-          <%- content -%>
-        </div>
-        <div class="col-sm-3 offset-sm-8 sidebar hidden-xs-down" style="position:fixed">
-          <div class="" id="man-toc">
-          </div>
-        </nav>
-      </div>
-    </div>
-
-    <!-- inject:jquery:js -->
-    <!-- endinject -->
-    <!-- inject:js -->
-    <!-- endinject -->
-    <script>
-      tocbot.init({
-        tocSelector: '#man-toc',
-        contentSelector: '#man-contents',
-        headingSelector: 'h1, h2, h3',
-      });
-    </script>
-  </body>
-</html>
+<%- include('./md-toc.ejs') -%>
