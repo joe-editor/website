@@ -34,7 +34,7 @@ version.versions.forEach(function (v) {
         }
         
         return hg.update(version.info[v].tags.unix, {cwd: './joe'}, (out, err) => {
-            gulp.src(['joe/NEWS.md', 'joe/docs/man.md'])
+            gulp.src(['joe/NEWS.md', 'joe/docs/man.md', 'joe/INSTALL', 'joe/INSTALL.md'])
                 .pipe(gulp.dest('intermediate/md/' + v))
                 .on('end', done);
         });
@@ -81,6 +81,14 @@ gulp.task('md:manuals', ['gather'], () => {
                .pipe(gulp.dest('intermediate/dist'));
 });
 
+// Render INSTALL's against templates/install.ejs --> put in intermediate/dist/<version>/INSTALL.html
+gulp.task('md:install', ['gather'], () => {
+    return gulp.src(['intermediate/md/**/INSTALL', 'intermediate/md/**/INSTALL.md'], {base: './intermediate/md'})
+               .pipe(utils.stripTOC())
+               .pipe(utils.convertmd(gulp.src('templates/install.ejs')))
+               .pipe(gulp.dest('intermediate/dist'));
+});
+
 // Render news.md with marked against news.mustache --> put in intermediate/dist/<version>/NEWS.html
 gulp.task('md:news', ['gather-tip'], () => {
     return gulp.src(['intermediate/md/tip/NEWS.md'])
@@ -113,7 +121,7 @@ gulp.task('md:windows', ['gather'], () => {
 });
 
 // Task that groups all markdown conversion
-gulp.task('markdown', ['md:manuals', 'md:news', 'md:releases', 'md:hacking', 'md:windows']);
+gulp.task('markdown', ['md:manuals', 'md:news', 'md:install', 'md:releases', 'md:hacking', 'md:windows']);
 
 // Task to generate html files from templates that have no markdown input
 gulp.task('templates', () => {
@@ -129,7 +137,7 @@ gulp.task('templates', () => {
 // Generate all html
 gulp.task('html', ['markdown', 'templates']);
 
-// Copies JS bower dependencies to dist
+// Copies browser JS dependencies from node_modules to dist
 gulp.task('deps:js', () => {
     return gulp.src(["node_modules/jquery/dist/jquery.min.js", 
                      "node_modules/bootstrap/dist/js/bootstrap.min.js",
@@ -138,7 +146,7 @@ gulp.task('deps:js', () => {
                .pipe(gulp.dest('./dist/js'));
 });
 
-// Copies CSS bower dependencies to dist
+// Copies browser CSS dependencies from node_modules to dist
 gulp.task('deps:css', () => {
     return gulp.src([`node_modules/bootswatch/${theme}/bootstrap.min.css`,
                      "node_modules/tocbot/dist/tocbot.css"])

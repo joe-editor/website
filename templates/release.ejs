@@ -2,20 +2,24 @@
 
 <div class="jumbotron">
   <div class="container">
-    <h1 class="display-4">JOE <%= current %></h1>
+    <div class="row">
+      <h1 class="display-4">JOE <%= current %></h1>
+    </div>
+    <div class="row">
 <% if (versions.hasUnix(current)) { %>
-    <p>&raquo; Released on <%= moment(versions.info[current].release.unix).format('DD MMM YYYY') %></p>
+      <p>&raquo; Released on <%= moment(versions.info[current].release.unix).format('DD MMM YYYY') %></p>
 <% } else { %>
-    <p>&raquo; Released on <%= moment(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
+      <p>&raquo; Released on <%= moment(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
 <% } %>
-    <p>
+    </div>
+    <div class="row">
 <% if (versions.hasUnix(current)) { %>
-      <a class="btn btn-primary btn-lg" href="<%= versions.info[current].downloads.unix %>">Download JOE <%= current %> Source</a>
+      <a class="btn btn-primary btn-lg m-2" href="<%= versions.info[current].downloads.unix %>">Download source</a>
 <% } %>
 <% if (versions.hasWindows(current)) { %>
-      <a class="btn btn-primary btn-lg" href="<%= versions.info[current].downloads.windows %>">Download JOE <%= current %> Windows Installer</a>
+      <a class="btn btn-primary btn-lg m-2" href="<%= versions.info[current].downloads.windows %>">Download Windows Installer</a>
 <% } %>
-    </p>
+    </div>
   </div>
 </div>
 
@@ -23,7 +27,8 @@
   <div class="row">
     <div class="col-md-6">
       <h2>Documentation</h2>
-      <p>Be sure to read the user manual for this version.</p>
+      <p>&raquo; Refer to the <a href="INSTALL.html">installation instructions</a> when building from source.</p>
+      <p>&raquo; Be sure to read the user manual for this version.</p>
       <p><a class="btn btn-secondary" href="man.html">Read the user manual</a></p>
     </div>
 <% if (versions.hasWindows(current)) { %>
