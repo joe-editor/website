@@ -15,19 +15,21 @@ fi
 
 cd $(dirname $0)
 
+echo ''
 echo ===
 echo === Building website
 echo ===
 echo ''
 
 # Ensure clean build
-rm -rf dist
+rm -rf dist intermediate
 ./node_modules/.bin/gulp || exit $?
 
+echo ''
 echo ===
 echo === Rsync-ing dist/ to $SFUSER@web.sourceforge.net
 echo ===
 echo ''
 
-# Upload
+# Upload, pass any commandline arguments (like --dry-run) to rsync
 rsync -azP -e ssh --delete "$@" dist/ $SFUSER@web.sourceforge.net:/home/project-web/joe-editor/htdocs/
