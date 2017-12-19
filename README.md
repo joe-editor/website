@@ -45,8 +45,13 @@ Install [Node.js](https://nodejs.org/en/) with
 
 The full output goes to `dist/` when built.
 
+Note that `gulp dev` will not pick up changes to any of the JS files, nor
+will it pick up new versions from `versions.yml`.  However, templates, and
+information **from within** a version specified in `versions.yml` will
+result in changes to the output.
+
 ## Release management
 
 The `versions.yml` file specifies releases, download links, and hg commits. 
 When a new release is added, start by adding it there, and then rerunning
-`gulp` as above.  Output is found in `dist/`.
+`gulp` as above.

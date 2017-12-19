@@ -31,17 +31,24 @@
       <p>&raquo; Be sure to read the user manual for this version.</p>
       <p><a class="btn btn-secondary" href="man.html">Read the user manual</a></p>
     </div>
-<% if (versions.hasWindows(current)) { %>
     <div class="col-md-6">
       <h2>Windows version</h2>
+<% if (versions.hasWindows(current)) { %>
       <p>&raquo; Released on <%= moment(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
       <p>&raquo; Download the <a href="<%= versions.info[current].downloads.windowsSrc %>">Windows source code</a></p>
 <% if (versions.info[current].downloads.windowsStandalone) { %>
       <p>&raquo; Download a <a href="<%= versions.info[current].downloads.windowsStandalone %>">standalone version</a></p>
 <% } %>
       <p><a class="btn btn-secondary" href="windows.html">Read tips for the Windows version</a></p>
-    </div>
+<% } else { %>
+<%    const nextVersion = versions.newerWindows(current); %>
+<%    if (nextVersion) { %>
+      <p>There was no Windows release for this version. The next newest version with a windows release is <a href="/<%= nextVersion %>/"><%= nextVersion %></a>.</p>
+<%    } else { %>
+      <p>No Windows release has been made for this version... yet. <i>Stay tuned!</i></p>
+<%    } %>
 <% } %>
+    </div>
   </div>
 </div>
 

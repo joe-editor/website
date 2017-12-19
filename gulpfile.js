@@ -187,7 +187,9 @@ gulp.task('dev', ['default'], () => {
         }
     });
     
-    gulp.watch(['templates/*.ejs', 'versions.yml'], ['browser-reload']);
+    gulp.watch(['templates/*.ejs', 'versions.yml'], ['browser-reload']).on('change', function(file) {
+        version.reload();
+    });
 });
 
 gulp.task('default', ['html', 'inject', 'images']);
