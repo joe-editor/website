@@ -1,3 +1,10 @@
+"4.6":
+  release:
+    unix: 2018-01-10
+  downloads:
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.6/joe-4.6.tar.gz/download"
+  tags:
+    unix: "a034fecb383de4b56a46a3fb40d88128bda5ff40"
 "4.5":
   release:
     unix: 2017-09-24
