@@ -41,7 +41,7 @@ version.versions.forEach(function (v) {
     }));
     
     // Grab windows.md for this version --> put in same place as above
-    gulp.task('gather-windows-' + v, hgLock.cb((done) => {
+    gulp.task('gather-windows-' + v, ['get-joe'], hgLock.cb((done) => {
         if (!version.hasWindows(v)) {
             // No windows version every release.
             return done();
@@ -62,7 +62,7 @@ version.versions.forEach(function (v) {
 });
 
 // Get documents at the tip version (for changelog and README)
-gulp.task('gather-tip', hgLock.cb((done) => {
+gulp.task('gather-tip', ['get-joe'], hgLock.cb((done) => {
     return hg.update('default', {cwd: './joe'}, (out, err) => {
         gulp.src(['joe/NEWS.md', 'joe/docs/hacking.md'])
             .pipe(gulp.dest('intermediate/md/tip/'))
@@ -169,7 +169,7 @@ gulp.task('inject', ['deps', 'html'], () => {
 });
 
 // Task that copies images from img --> dist/img
-gulp.task('images', () => {
+gulp.task('images', ['gather'], () => {
     return gulp.src(['img/*'], {read: true}).pipe(gulp.dest('dist/img'));
 });
 

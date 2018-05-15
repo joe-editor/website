@@ -3,8 +3,12 @@
     unix: 2018-01-10
   downloads:
     unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.6/joe-4.6.tar.gz/download"
+    windows: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.6/joewin-4.6.msi/download"
+    windowsSrc: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.6/joewin-4.6-src.zip/download"
+    windowsStandalone: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.6/Standalone/"
   tags:
     unix: "a034fecb383de4b56a46a3fb40d88128bda5ff40"
+    windows: "1e3cda55fa98253b0908cafe0331a6d7408e2ca9"
 "4.5":
   release:
     unix: 2017-09-24
