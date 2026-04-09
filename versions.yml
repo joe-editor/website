@@ -1,3 +1,10 @@
+"4.7":
+  release:
+    unix: 2026-04-08
+  downloads:
+    unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.7/joe-4.7.tar.gz/download"
+  git:
+    unix: "releases/joe-4.7"
 "4.6":
   release:
     unix: 2018-01-10

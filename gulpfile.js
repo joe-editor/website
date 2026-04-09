@@ -1,6 +1,7 @@
 const gulp = require('gulp'),
       fs = require('fs'),
       hg = require('gulp-hg'),
+      git = require('gulp-git'),
       version = require('./version'),
       lock = require('gulp-lock'),
       rename = require('gulp-rename'),
@@ -24,47 +25,90 @@ gulp.task('get-joe', function(done) {
     }
 });
 
+gulp.task('git-joe', function(done) {
+    if (!fs.existsSync('./joe-git')) {
+        git.clone('https://github.com/joe-editor/joe.git', {args: './joe-git'}, function() { done(); });
+    } else {
+        git.pull('origin', ['main', 'windows'], {cwd: './joe-git'}, function() { done(); });
+    }
+});
+
 // Gather each version by checking out repo to the commit listed in versions.yml,
 // then copying markdown files into intermediate/md
 version.versions.forEach(function (v) {
-    // Grab .md files for this version --> put them in intermediate/md/<version>
-    gulp.task('gather-unix-' + v, ['get-joe'], hgLock.cb((done) => {
-        if (!version.hasUnix(v)) {
-          return done();
-        }
-        
-        return hg.update(version.info[v].tags.unix, {cwd: './joe'}, (out, err) => {
-            gulp.src(['joe/NEWS.md', 'joe/docs/man.md', 'joe/INSTALL', 'joe/INSTALL.md'])
-                .pipe(gulp.dest('intermediate/md/' + v))
-                .on('end', done);
-        });
-    }));
-    
-    // Grab windows.md for this version --> put in same place as above
-    gulp.task('gather-windows-' + v, ['get-joe'], hgLock.cb((done) => {
-        if (!version.hasWindows(v)) {
-            // No windows version every release.
-            return done();
-        }
-        
-        return hg.update(version.info[v].tags.windows, {cwd: './joe'}, (out, err) => {
-            var files = ['joe/docs/windows.md'];
+    if (version.info[v].git) {
+        // Grab .md files for this version --> put them in intermediate/md/<version>
+        gulp.task('gather-unix-' + v, ['git-joe'], hgLock.cb((done) => {
             if (!version.hasUnix(v)) {
-                // If this is Windows-only, then take man.md.
-                files.push('joe/docs/man.md');
-                files.push('joe/NEWS.md');
+              return done();
             }
-            gulp.src(files)
-                .pipe(gulp.dest('intermediate/md/' + v))
-                .on('end', done);
-        });
-    }));
+
+            return git.checkout(version.info[v].git.unix, {cwd: './joe-git'}, (out, err) => {
+                gulp.src(['joe-git/NEWS.md', 'joe-git/docs/man.md', 'joe-git/INSTALL', 'joe-git/INSTALL.md'])
+                    .pipe(gulp.dest('intermediate/md/' + v))
+                    .on('end', done);
+            });
+        }));
+
+        // Grab windows.md for this version --> put in same place as above
+        gulp.task('gather-windows-' + v, ['git-joe'], hgLock.cb((done) => {
+            if (!version.hasWindows(v)) {
+                // No windows version every release.
+                return done();
+            }
+
+            return git.checkout(version.info[v].git.windows, {cwd: './joe-git'}, (out, err) => {
+                var files = ['joe-git/docs/windows.md'];
+                if (!version.hasUnix(v)) {
+                    // If this is Windows-only, then take man.md.
+                    files.push('joe-git/docs/man.md');
+                    files.push('joe-git/NEWS.md');
+                }
+                gulp.src(files)
+                    .pipe(gulp.dest('intermediate/md/' + v))
+                    .on('end', done);
+            });
+        }));
+    } else {
+        // Grab .md files for this version --> put them in intermediate/md/<version>
+        gulp.task('gather-unix-' + v, ['get-joe'], hgLock.cb((done) => {
+            if (!version.hasUnix(v)) {
+              return done();
+            }
+
+            return hg.update(version.info[v].tags.unix, {cwd: './joe'}, (out, err) => {
+                gulp.src(['joe/NEWS.md', 'joe/docs/man.md', 'joe/INSTALL', 'joe/INSTALL.md'])
+                    .pipe(gulp.dest('intermediate/md/' + v))
+                    .on('end', done);
+            });
+        }));
+
+        // Grab windows.md for this version --> put in same place as above
+        gulp.task('gather-windows-' + v, ['get-joe'], hgLock.cb((done) => {
+            if (!version.hasWindows(v)) {
+                // No windows version every release.
+                return done();
+            }
+
+            return hg.update(version.info[v].tags.windows, {cwd: './joe'}, (out, err) => {
+                var files = ['joe/docs/windows.md'];
+                if (!version.hasUnix(v)) {
+                    // If this is Windows-only, then take man.md.
+                    files.push('joe/docs/man.md');
+                    files.push('joe/NEWS.md');
+                }
+                gulp.src(files)
+                    .pipe(gulp.dest('intermediate/md/' + v))
+                    .on('end', done);
+            });
+        }));
+    }
 });
 
 // Get documents at the tip version (for changelog and README)
-gulp.task('gather-tip', ['get-joe'], hgLock.cb((done) => {
-    return hg.update('default', {cwd: './joe'}, (out, err) => {
-        gulp.src(['joe/NEWS.md', 'joe/docs/hacking.md'])
+gulp.task('gather-tip', ['git-joe'], hgLock.cb((done) => {
+    return git.checkout('main', {cwd: './joe-git'}, (out, err) => {
+        gulp.src(['joe-git/NEWS.md', 'joe-git/docs/hacking.md'])
             .pipe(gulp.dest('intermediate/md/tip/'))
             .on('end', done);
     });
@@ -139,7 +183,7 @@ gulp.task('html', ['markdown', 'templates']);
 
 // Copies browser JS dependencies from node_modules to dist
 gulp.task('deps:js', () => {
-    return gulp.src(["node_modules/jquery/dist/jquery.min.js", 
+    return gulp.src(["node_modules/jquery/dist/jquery.min.js",
                      "node_modules/bootstrap/dist/js/bootstrap.min.js",
                      "node_modules/tether/dist/js/tether.min.js",
                      "node_modules/tocbot/dist/tocbot.min.js"])
@@ -159,7 +203,7 @@ gulp.task('deps', ['deps:css', 'deps:js']);
 // Injects assets into templatized html files --> put the results in ./dist
 gulp.task('inject', ['deps', 'html'], () => {
     const ignorePaths = ["intermediate/dist", "dist"];
-    
+
     return gulp.src(['intermediate/dist/**/*.html'], {base: 'intermediate/dist'})
                // Make sure jQuery comes first.  Otherwise, this breaks.
                .pipe(inject(gulp.src('./dist/js/jquery.min.js', {read: false}), {starttag: '<!-- inject:jquery:{{ext}} -->', ignorePath: ignorePaths})) // Make sure jquery comes first
@@ -186,7 +230,7 @@ gulp.task('dev', ['default'], () => {
             baseDir: "./dist",
         }
     });
-    
+
     gulp.watch(['templates/*.ejs', 'versions.yml'], ['browser-reload']).on('change', function(file) {
         version.reload();
     });

@@ -4,7 +4,7 @@ const fs = require('fs'),
 function vcmp(x, y) {
     var xparts = x.split(".");
     var yparts = y.split(".");
-    
+
     for (var i = 0; i < Math.min(xparts.length, yparts.length); i++) {
         if (parseInt(xparts[i]) < parseInt(yparts[i])) {
             return -1;
@@ -12,7 +12,7 @@ function vcmp(x, y) {
             return 1;
         }
     }
-    
+
     if (x.length < y.length) {
         return -1;
     } else if (x.length > y.length) {
@@ -32,15 +32,15 @@ function load(file, version) {
     version.versions = versions;
     version.info = versionInfo;
     version.latest = versions[0];
-    
+
     version.hasWindows = function(v) {
-        return this.info[v].tags && this.info[v].tags.windows;
+        return (this.info[v].tags && this.info[v].tags.windows) || (this.info[v].git && this.info[v].git.windows);
     };
-    
+
     version.hasUnix = function(v) {
-        return this.info[v].tags && this.info[v].tags.unix;
+        return (this.info[v].tags && this.info[v].tags.unix) || (this.info[v].git && this.info[v].git.unix);
     };
-    
+
     version.newerWindows = function(v) {
         /* Find a Windows release newer than this one */
         for (var i = versions.length - 1; i >= 0; i--) {
@@ -63,9 +63,9 @@ function load(file, version) {
             break;
         }
     }
-    
+
     version.reload = function() { load(file, version); };
-    
+
     return version;
 }
 
