@@ -7,9 +7,9 @@
     </div>
     <div class="row">
 <% if (versions.hasUnix(current)) { %>
-      <p>&raquo; Released on <%= moment(versions.info[current].release.unix).format('DD MMM YYYY') %></p>
+      <p>&raquo; Released on <%= moment.utc(versions.info[current].release.unix).format('DD MMM YYYY') %></p>
 <% } else { %>
-      <p>&raquo; Released on <%= moment(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
+      <p>&raquo; Released on <%= moment.utc(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
 <% } %>
     </div>
     <div class="row">
@@ -34,7 +34,7 @@
     <div class="col-md-6">
       <h2>Windows version</h2>
 <% if (versions.hasWindows(current)) { %>
-      <p>&raquo; Released on <%= moment(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
+      <p>&raquo; Released on <%= moment.utc(versions.info[current].release.windows).format('DD MMM YYYY') %></p>
       <p>&raquo; Download the <a href="<%= versions.info[current].downloads.windowsSrc %>">Windows source code</a></p>
 <% if (versions.info[current].downloads.windowsStandalone) { %>
       <p>&raquo; Download a <a href="<%= versions.info[current].downloads.windowsStandalone %>">standalone version</a></p>
