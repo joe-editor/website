@@ -4,13 +4,16 @@
   "description": "website for JOE's editor",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "John J. Jordan <jj@jjjordan.io>",
   "license": "ISC",
   "dependencies": {
+    "@11ty/eleventy": "^3.1.5",
     "bootstrap": "5.3.8",
-    "bootswatch": "5.3.8"
+    "bootswatch": "5.3.8",
+    "isomorphic-git": "^1.37.5",
+    "markdown-it": "^14.1.1",
+    "sass": "^1.99.0"
   },
   "type": "module"
 }
