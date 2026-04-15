@@ -3,12 +3,12 @@
   "version": "2.0.0",
   "description": "website for JOE's editor",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "John J. Jordan <jj@jjjordan.io>",
   "license": "ISC",
   "dependencies": {
     "@11ty/eleventy": "^3.1.5",
+    "@11ty/eleventy-plugin-ejs": "^1.0.0",
     "bootstrap": "5.3.8",
     "bootswatch": "5.3.8",
     "isomorphic-git": "^1.37.5",

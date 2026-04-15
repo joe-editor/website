@@ -1,4 +1,5 @@
 import { RenderPlugin } from "@11ty/eleventy";
+import ejsPlugin from "@11ty/eleventy-plugin-ejs";
 import markdownIt from "markdown-it";
 import * as sass from "sass";
 import path from "node:path";
@@ -9,6 +10,7 @@ const require = createRequire(import.meta.url);
 
 export default async function(eleventyConfig) {
   // 1. Plugins
+  eleventyConfig.addPlugin(ejsPlugin);
   eleventyConfig.addPlugin(RenderPlugin);
   eleventyConfig.addBundle("css");
   eleventyConfig.addBundle("js");
