@@ -13,7 +13,7 @@ description: "Joe's Own Editor"
       </div>
       <div class="col-md-4">
         <h3 class="display-6">Latest version: <%= versions.latestUnix %></h3>
-        <p>&raquo; Released <%= moment.utc(versions.info[versions.latestUnix].release.unix).format('DD MMM YYYY') %></p>
+        <p>&raquo; Released <%= formatTime(versions.info[versions.latestUnix].release.unix, 'DD MMM YYYY') %></p>
         <p><a class="btn btn-secondary" href="/<%= versions.latestUnix %>/">Get this release</a></p>
       </div>
     </div>

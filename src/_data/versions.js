@@ -1,5 +1,9 @@
-const fs = require('fs'),
-      yaml = require('js-yaml');
+import * as fs from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import * as path from 'node:path';
+import * as yaml from 'js-yaml';
+
+const FILENAME = '../../versions.yml';
 
 function vcmp(x, y) {
     var xparts = x.split(".");
@@ -22,13 +26,16 @@ function vcmp(x, y) {
     }
 }
 
-function load(file, version) {
-    var versionInfo = yaml.safeLoad(fs.readFileSync(file, 'utf8'));
+export default async function() {
+    const dir = path.dirname(fileURLToPath(import.meta.url));
+    const file = path.resolve(dir, FILENAME);
+    var versionInfo = yaml.load(await fs.readFile(file, 'utf8'));
 
     var versions = Object.keys(versionInfo);
     versions.sort(vcmp);
     versions.reverse();
 
+    let version = {};
     version.versions = versions;
     version.info = versionInfo;
     version.latest = versions[0];
@@ -68,5 +75,3 @@ function load(file, version) {
 
     return version;
 }
-
-module.exports = load('versions.yml', {});

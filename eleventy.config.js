@@ -5,21 +5,23 @@ import * as sass from "sass";
 import path from "node:path";
 import fs from "node:fs";
 import { createRequire } from "node:module";
+import moment from "moment";
 
 const require = createRequire(import.meta.url);
 
 export default async function(eleventyConfig) {
-  // 1. Plugins
+  // Plugins
   eleventyConfig.addPlugin(ejsPlugin);
   eleventyConfig.addPlugin(RenderPlugin);
   eleventyConfig.addBundle("css");
   eleventyConfig.addBundle("js");
 
-  // 2. Markdown Filter
+  // Filters, data
   const mdLib = markdownIt({ html: true, linkify: true });
   eleventyConfig.addFilter("md", (content) => mdLib.render(content));
+  eleventyConfig.addGlobalData("formatTime", () => (data, fmt) => moment.utc(data).format(fmt));
 
-  // 3. Sass Processing
+  // Sass Processing
   eleventyConfig.addTemplateFormats("scss");
   eleventyConfig.addExtension("scss", {
     outputFileExtension: "css",
@@ -33,7 +35,7 @@ export default async function(eleventyConfig) {
     },
   });
 
-  // 4. Vendor JS Shortcode (The "Cleaner" Way)
+  // Vendor JS Shortcode
   eleventyConfig.addShortcode("addVendorJs", function(packageName) {
     const filePath = require.resolve(packageName);
     const content = fs.readFileSync(filePath, "utf8");
@@ -41,7 +43,7 @@ export default async function(eleventyConfig) {
     return "";
   });
 
-  // 5. Asset Passthrough (for local images/fonts)
+  // Asset Passthrough
   eleventyConfig.addPassthroughCopy("src/assets");
 
   return {
