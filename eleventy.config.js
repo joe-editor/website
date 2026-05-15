@@ -11,14 +11,14 @@ const require = createRequire(import.meta.url);
 
 export default async function(eleventyConfig) {
   // Plugins
-  eleventyConfig.addPlugin(ejsPlugin);
+  eleventyConfig.addPlugin(ejsPlugin, { async: true });
   eleventyConfig.addPlugin(RenderPlugin);
   eleventyConfig.addBundle("css");
   eleventyConfig.addBundle("js");
 
   // Filters, data
   const mdLib = markdownIt({ html: true, linkify: true });
-  eleventyConfig.addFilter("md", (content) => mdLib.render(content));
+  eleventyConfig.addGlobalData("md", () => (content) => mdLib.render(content));
   eleventyConfig.addGlobalData("formatTime", () => (data, fmt) => moment.utc(data).format(fmt));
 
   // Sass Processing

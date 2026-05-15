@@ -41,11 +41,11 @@ export default async function() {
     version.latest = versions[0];
 
     version.hasWindows = function(v) {
-        return (this.info[v].tags && this.info[v].tags.windows) || (this.info[v].git && this.info[v].git.windows);
+        return this.info[v].git && this.info[v].git.windows;
     };
 
     version.hasUnix = function(v) {
-        return (this.info[v].tags && this.info[v].tags.unix) || (this.info[v].git && this.info[v].git.unix);
+        return this.info[v].git && this.info[v].git.unix;
     };
 
     version.newerWindows = function(v) {

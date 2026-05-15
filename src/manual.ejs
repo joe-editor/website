@@ -1,0 +1,14 @@
+---
+pagination:
+  data: versions.versions
+  size: 1
+  alias: ver
+
+permalink: "<%= ver %>/manual.html"
+layout: docs.ejs
+
+title: User Manual
+description: Joe's Own Editor User Manual
+---
+
+<%- md(await git.read(versions.info[ver].git.unix || versions.info[ver].git.windows, "docs/man.md")) %>

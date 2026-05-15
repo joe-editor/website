@@ -1,9 +1,20 @@
----
-permalink: "windows.html"
-layout: "base.ejs"
+---js
+{
+  pagination: {
+    data: "versions.versions",
+    size: 1,
+    alias: "ver",
+    before: function(pagitems, fulldata) {
+      return pagitems.filter(v => fulldata.versions.hasWindows(v));
+    },
+  },
 
-title: "Windows tips"
-description: "Joe's Own Editor Windows tips"
+  permalink: "<%= ver %>/windows.html",
+  layout: "docs.ejs",
+
+  title: "Windows tips",
+  description: "Joe's Own Editor Windows tips",
+}
 ---
 
-Some tips.
+<%- md(await git.read(versions.info[ver].git.windows, "docs/windows.md")) %>

@@ -1,0 +1,14 @@
+---
+pagination:
+  data: versions.versions
+  size: 1
+  alias: ver
+
+permalink: "<%= ver %>/install.html"
+layout: docs.ejs
+
+title: Installation instructions
+description: Joe's Own Editor Installation Instructions
+---
+
+<%- md(await git.readFirst(versions.info[ver].git.unix || versions.info[ver].git.windows, ["INSTALL.md", "INSTALL"])) %>

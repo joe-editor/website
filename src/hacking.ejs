@@ -1,0 +1,14 @@
+---
+pagination:
+  data: versions.versions
+  size: 1
+  alias: ver
+
+permalink: "<%= ver %>/hacking.html"
+layout: docs.ejs
+
+title: Hacking Guide
+description: Joe's Own Editor Hacking Guide
+---
+
+<%- md(await git.read(versions.info[ver].git.unix || versions.info[ver].git.windows, "docs/hacking.md")) %>
