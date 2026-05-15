@@ -7,6 +7,8 @@ import fs from "node:fs";
 import { createRequire } from "node:module";
 import moment from "moment";
 
+import * as utils from './lib/utils.js';
+
 const require = createRequire(import.meta.url);
 
 export default async function(eleventyConfig) {
@@ -20,6 +22,7 @@ export default async function(eleventyConfig) {
   const mdLib = markdownIt({ html: true, linkify: true });
   eleventyConfig.addGlobalData("md", () => (content) => mdLib.render(content));
   eleventyConfig.addGlobalData("formatTime", () => (data, fmt) => moment.utc(data).format(fmt));
+  eleventyConfig.addGlobalData("utils", () => utils);
 
   // Sass Processing
   eleventyConfig.addTemplateFormats("scss");

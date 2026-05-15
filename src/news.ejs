@@ -1,12 +1,19 @@
-<%- include('./header.ejs', {versions: versions, title: "Changelog", description: "Joe's Own Editor Changelog"}) -%>
+---
+permalink: "NEWS.html"
+layout: "content.ejs"
+
+title: "Changelog"
+description: "Joe's Own Editor Changelog"
+---
+<% let news = await git.read("main", "NEWS.md") %>
 <div class="container">
   <div class="row">
     <div class="col-sm-8">
-      <%- content -%>
+      <%- md(news) %>
     </div>
     <nav class="col-sm-3 hidden-sm-down bg-faded sidebar">
       <ul class="nav nav-pills flex-column">
-        <% toc.forEach(section => {
+        <% utils.toc(news).forEach(section => {
                if (section.level == 3) { %>
           <li class="nav-item">
             <a class="nav-link" href="#<%= section.anchor %>"><%= section.text %></a>
@@ -16,4 +23,3 @@
     </nav>
   </div>
 </div>
-<%- include('./footer.ejs') -%>

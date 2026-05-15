@@ -12,6 +12,7 @@
     "bootstrap": "5.3.8",
     "bootswatch": "5.3.8",
     "isomorphic-git": "^1.37.5",
+    "lodash": "^4.18.1",
     "markdown-it": "^14.1.1",
     "moment": "^2.30.1",
     "sass": "1.78.0"
