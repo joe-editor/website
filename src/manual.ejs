@@ -5,10 +5,9 @@ pagination:
   alias: ver
 
 permalink: "<%= ver %>/man.html"
-layout: docs.ejs
+layout: docs.njk
 
 title: User Manual
-description: Joe's Own Editor User Manual
 ---
 
 <%- md(await git.read(versions.info[ver].git.unix || versions.info[ver].git.windows, "docs/man.md")) %>

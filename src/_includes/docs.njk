@@ -1,0 +1,24 @@
+---
+layout: "content.njk"
+---
+<div class="row">
+  <div class="col-sm-8" id="md-contents">
+    {{ content | safe }}
+  </div>
+  <div class="col-sm-4 offset-sm-8 sidebar hidden-xs-down h-100" style="position:fixed; overflow-x:hidden;">
+    <div class="" id="md-toc">
+    </div>
+  </nav>
+</div>
+
+{% js %}
+tocbot.init({
+  tocSelector: '#md-toc',
+  contentSelector: '#md-contents',
+  headingSelector: 'h1, h2, h3, h4',
+});
+{% endjs %}
+
+{% css "defer" %}
+<link rel="stylesheet" href="/css/tocbot.css">
+{% endcss %}

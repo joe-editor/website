@@ -1,9 +1,8 @@
 ---
 permalink: "hacking.html"
-layout: docs.ejs
+layout: docs.njk
 
 title: Hacking Guide
-description: Joe's Own Editor Hacking Guide
 ---
 
 <%- md(await git.read("main", "docs/hacking.md")) %>

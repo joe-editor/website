@@ -5,10 +5,11 @@ pagination:
   alias: ver
 
 permalink: "<%= ver %>/index.html"
-layout: "content.ejs"
+layout: "content.njk"
 
-title: "<%= ver %>"
-description: "Joe's Own Editor version <%= ver %>"
+eleventyComputed:
+  title: "<%= ver %>"
+  description: "Version <%= ver %>"
 ---
 
 <div class="jumbotron">

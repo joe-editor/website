@@ -5,10 +5,9 @@ pagination:
   alias: ver
 
 permalink: "<%= ver %>/INSTALL.html"
-layout: docs.ejs
+layout: docs.njk
 
 title: Installation instructions
-description: Joe's Own Editor Installation Instructions
 ---
 
 <%- md(await git.readFirst(versions.info[ver].git.unix || versions.info[ver].git.windows, ["INSTALL.md", "INSTALL"])) %>

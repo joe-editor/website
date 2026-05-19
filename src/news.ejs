@@ -1,9 +1,8 @@
 ---
 permalink: "NEWS.html"
-layout: "content.ejs"
+layout: "content.njk"
 
 title: "Changelog"
-description: "Joe's Own Editor Changelog"
 ---
 <% let news = await git.read("main", "NEWS.md") %>
 <div class="container">

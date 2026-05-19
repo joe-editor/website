@@ -1,9 +1,9 @@
 <html>
   <head>
-    <title><%= title %> - Joe's Own Editor</title>
+    <title>{{ title }} - Joe's Own Editor</title>
     <link rel="icon" href="/img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-    <meta name="description" content="Joe's Own Editor <%- description || title %>"></meta>
+    <meta name="description" content="Joe's Own Editor {{ description or title }}"></meta>
     <link rel="stylesheet" href="/css/main.css">
     <style>
     .nav-target::before {
@@ -15,7 +15,9 @@
     	content: " ";
     	pointer-events: none;
     }
+    {% getBundle "css" %}
     </style>
+    {% getBundle "css", "defer" %}
   </head>
   <body style="padding-top:70px">
     <!-- Navigation bar -->
@@ -30,14 +32,14 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="" id="downloadsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download</a>
             <div class="dropdown-menu" aria-labelledby="downloadsDropdown">
-              <a class="dropdown-item" href="<%= versions.info[versions.latestUnix].downloads.unix %>">JOE <%= versions.latestUnix %> source</a>
+              <a class="dropdown-item" href="{{ versions.info[versions.latestUnix].downloads.unix }}">JOE {{ versions.latestUnix }} source</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="<%= versions.info[versions.latestWindows].downloads.windows %>">JOE for Windows <%= versions.latestWindows %></a>
-              <a class="dropdown-item" href="<%= versions.info[versions.latestWindows].downloads.windowsSrc %>">JOE for Windows <%= versions.latestWindows %> source</a>
+              <a class="dropdown-item" href="{{ versions.info[versions.latestWindows].downloads.windows }}">JOE for Windows {{ versions.latestWindows }}</a>
+              <a class="dropdown-item" href="{{ versions.info[versions.latestWindows].downloads.windowsSrc }}">JOE for Windows {{ versions.latestWindows }} source</a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/<%= versions.latestUnix %>/man.html">User Manual</a>
+            <a class="nav-link" href="/{{ versions.latestUnix }}/man.html">User Manual</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/NEWS.html">Changelog</a>
@@ -45,9 +47,9 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="" id="releasesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Releases</a>
             <div class="dropdown-menu" aria-labelledby="releasesDropdown">
-<% versions.versions.forEach(function(v) { %>
-              <a class="dropdown-item" href="/<%= v %>/"><%= v %></a>
-<% }); %>
+{% for v in versions.versions %}
+              <a class="dropdown-item" href="/{{ v }}/">{{ v }}</a>
+{% endfor %}
             </div>
           </li>
           <li class="nav-item">
@@ -73,11 +75,13 @@
       </div>
     </nav>
 
-<%- content %>
+{{ content | safe }}
 
-    <!-- inject:jquery:js -->
-    <!-- endinject -->
-    <!-- inject:js -->
-    <!-- endinject -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    {% getBundle "js", "defer" %}
+    <script>
+    {% getBundle "js" %}
+    </script>
   </body>
 </html>
