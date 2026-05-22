@@ -19,9 +19,9 @@ eleventyComputed:
     </div>
     <div class="row">
 <% if (versions.hasUnix(ver)) { %>
-      <p>&raquo; Released on <%= formatTime(versions.info[ver].release.unix, 'DD MMM YYYY') %></p>
+      <p class="fs-4">&raquo; Released on <%= formatTime(versions.info[ver].release.unix, 'DD MMM YYYY') %></p>
 <% } else { %>
-      <p>&raquo; Released on <%= formatTime(versions.info[ver].release.windows, 'DD MMM YYYY') %></p>
+      <p class="fs-4">&raquo; Released on <%= formatTime(versions.info[ver].release.windows, 'DD MMM YYYY') %></p>
 <% } %>
     </div>
     <div class="d-flex flex-wrap gap-2">

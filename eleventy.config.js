@@ -8,6 +8,7 @@ import { createRequire } from "node:module";
 import moment from "moment";
 
 import * as utils from './lib/utils.js';
+import * as gitutils from './lib/gitutils.js';
 
 const require = createRequire(import.meta.url);
 
@@ -55,6 +56,9 @@ export default async function(eleventyConfig) {
     "node_modules/tocbot/dist/styles.css": "css/tocbotstyles.css",
     "img/favicon.ico": "img/favicon.ico",
   });
+
+  // Initialize git
+  eleventyConfig.on("eleventy.before", gitutils.initRepo);
 
   return {
     dir: {

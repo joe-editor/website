@@ -1,13 +1,11 @@
 import fs from 'node:fs';
 import git from 'isomorphic-git';
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-const GITPATH = '../joe-git';
-const fileDir = path.dirname(fileURLToPath(import.meta.url));
-const dir = path.resolve(fileDir, GITPATH);
+import * as gitutils from '../lib/gitutils.js';
 
 // Copies all images out of git main and into an img/ directory in the output.
+const dir = gitutils.dir;
 
 export default class GitImageGenerator {
     async data() {
