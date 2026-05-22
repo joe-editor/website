@@ -15,7 +15,7 @@ export default class GitImageGenerator {
         const files = await git.listFiles({ fs, dir, oid });
 
         // Filter for all images
-        const images = files.filter(f => f.match(/\.(jpg|jpeg|png|gif|svg)$/i));
+        const images = files.filter(f => f.match(/\.(jpg|jpeg|png|gif|svg|ico)$/i));
 
         let allImages = images.map(filePath => {
             return {

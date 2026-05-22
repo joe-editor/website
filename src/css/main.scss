@@ -22,3 +22,6 @@ $caret-vertical-align: 0.12em;
 
 // Custom styles if any ...
 
+h2, h3, .nav-target {
+  scroll-margin-top: var(--nav-height, 85px);
+}

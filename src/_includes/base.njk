@@ -6,15 +6,6 @@
     <meta name="description" content="Joe's Own Editor {{ description or title }}"></meta>
     <link rel="stylesheet" href="/css/main.css">
     <style>
-    .nav-target::before {
-    	/* Compensate for top nav bar */
-    	height: 85px;
-    	margin-top: -85px;
-    	visibility: hidden;
-    	display: block;
-    	content: " ";
-    	pointer-events: none;
-    }
     {% getBundle "css" %}
     </style>
     {% getBundle "css", "defer" %}
@@ -83,6 +74,16 @@
     <script src="/js/bootstrap.bundle.min.js"></script>
     {% getBundle "js", "defer" %}
     <script>
+    const updateNavbarHeight = () => {
+      // Measure navbar height
+      const navbar = document.querySelector('.navbar');
+      if (navbar) {
+        document.documentElement.style.setProperty("--navheight", `${navbar.offsetHeight}px`);
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', updateNavbarHeight);
+    window.addEventListener('resize', updateNavbarHeight);
     {% getBundle "js" %}
     </script>
   </body>

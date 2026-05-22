@@ -4,7 +4,7 @@ layout: "content.njk"
 
 title: "Changelog"
 ---
-<% let news = await git.read("main", "NEWS.md") %>
+<% let news = await git.read(versions.info[versions.latestUnix].git.unix, "NEWS.md") %>
 <div class="container">
   <div class="row">
     <div class="col-sm-8">

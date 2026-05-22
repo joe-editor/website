@@ -15,6 +15,7 @@
 "4.6":
   release:
     unix: 2018-01-10
+    windows: 2018-05-15
   downloads:
     unix: "https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.6/joe-4.6.tar.gz/download"
     windows: "https://sourceforge.net/projects/joe-editor/files/JOE%20for%20Windows/4.6/joewin-4.6.msi/download"

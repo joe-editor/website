@@ -53,6 +53,7 @@ export default async function(eleventyConfig) {
     "node_modules/tocbot/dist/tocbot.min.js": "js/tocbot.min.js",
     "node_modules/tocbot/dist/tocbot.css": "css/tocbot.css",
     "node_modules/tocbot/dist/styles.css": "css/tocbotstyles.css",
+    "img/favicon.ico": "img/favicon.ico",
   });
 
   return {
