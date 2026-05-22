@@ -49,11 +49,10 @@ export default async function(eleventyConfig) {
   // Asset Passthrough
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy({
-    "node_modules/bootstrap/dist/js/bootstrap.min.js": "js/bootstrap.min.js",
+    "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
     "node_modules/tocbot/dist/tocbot.min.js": "js/tocbot.min.js",
     "node_modules/tocbot/dist/tocbot.css": "css/tocbot.css",
     "node_modules/tocbot/dist/styles.css": "css/tocbotstyles.css",
-    "node_modules/jquery/dist/jquery.min.js": "js/jquery.js",
   });
 
   return {

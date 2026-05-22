@@ -5,17 +5,17 @@ pagination:
   alias: ver
 
 permalink: "<%= ver %>/index.html"
-layout: "content.njk"
+layout: "base.njk"
 
 eleventyComputed:
   title: "<%= ver %>"
   description: "Version <%= ver %>"
 ---
 
-<div class="jumbotron">
-  <div class="container">
+<div class="bg-light py-5 mb-4">
+  <div class="container py-5">
     <div class="row">
-      <h1 class="display-4">JOE <%= ver %></h1>
+      <h1 class="display-5 fw-bold">JOE <%= ver %></h1>
     </div>
     <div class="row">
 <% if (versions.hasUnix(ver)) { %>
@@ -24,12 +24,12 @@ eleventyComputed:
       <p>&raquo; Released on <%= formatTime(versions.info[ver].release.windows, 'DD MMM YYYY') %></p>
 <% } %>
     </div>
-    <div class="row">
+    <div class="d-flex flex-wrap gap-2">
 <% if (versions.hasUnix(ver)) { %>
-      <a class="btn btn-primary btn-lg m-2" href="<%= versions.info[ver].downloads.unix %>">Download source</a>
+      <a class="btn btn-primary btn-lg" type="button" href="<%= versions.info[ver].downloads.unix %>">Download source</a>
 <% } %>
 <% if (versions.hasWindows(ver)) { %>
-      <a class="btn btn-primary btn-lg m-2" href="<%= versions.info[ver].downloads.windows %>">Download Windows Installer</a>
+      <a class="btn btn-primary btn-lg" type="button" href="<%= versions.info[ver].downloads.windows %>">Download Windows Installer</a>
 <% } %>
     </div>
   </div>
