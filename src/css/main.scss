@@ -25,3 +25,39 @@ $caret-vertical-align: 0.12em;
 h2, h3, .nav-target {
   scroll-margin-top: var(--nav-height, 85px);
 }
+
+// TOCbot
+
+@import "tocbot/src/scss/_tocbot-core"; 
+
+#md-toc {
+  // Wipe out browser layout numbers completely
+  ol.toc-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  // Base styling for each TOC anchor link
+  .toc-link {
+    padding: $spacer * 0.25 $spacer * 0.75;
+    color: $transition-base;
+    color: $body-color;
+    font-size: $font-size-base * 0.9;
+    text-decoration: none;
+    border-left: 2px solid transparent; // Reserve space for active state border
+
+    &:hover {
+      color: $link-hover-color;
+    }
+  }
+
+  // Indent nested child links smoothly (e.g., H3 headings)
+  .toc-list .toc-list {
+    padding-left: $spacer * 1;
+
+    .toc-link {
+      font-size: $font-size-base * 0.85;
+    }
+  }
+}

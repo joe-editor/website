@@ -16,11 +16,27 @@ layout: "content.njk"
 {% endjs %}
 
 {% js %}
-// DOES THIS CHANGE
 tocbot.init({
   tocSelector: '#md-toc',
   contentSelector: '#md-contents',
-  headingSelector: 'h1, h2, h3, h4',
+  headingSelector: 'h2, h3, h4',
+  collapseDepth: 5,
+  scrollContainer: 'body',
+  scrollSmooth: true,
+});
+
+layoutbus.addEventListener("navResize", ev => {
+  const height = ev.detail.height;
+  tocbot.refresh({
+    tocSelector: '#md-toc',
+    contentSelector: '#md-contents',
+    headingSelector: 'h2, h3, h4',
+    collapseDepth: 5,
+    scrollContainer: 'body',
+    scrollSmooth: true,
+    headingsOffset: height + 5,
+    scrollSmoothOffset: -(height + 5),
+  });
 });
 {% endjs %}
 

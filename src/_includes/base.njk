@@ -74,11 +74,14 @@
     <script src="/js/bootstrap.bundle.min.js"></script>
     {% getBundle "js", "defer" %}
     <script>
+    let layoutbus = new EventTarget();
     const updateNavbarHeight = () => {
       // Measure navbar height
       const navbar = document.querySelector('.navbar');
       if (navbar) {
-        document.documentElement.style.setProperty("--navheight", `${navbar.offsetHeight}px`);
+        let height = navbar.offsetHeight;
+        document.documentElement.style.setProperty("--navheight", `${height}px`);
+        layoutbus.dispatchEvent(new CustomEvent("navResize", {detail: {height: height}}));
       }
     };
 
