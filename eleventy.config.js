@@ -1,6 +1,5 @@
 import { RenderPlugin } from "@11ty/eleventy";
 import ejsPlugin from "@11ty/eleventy-plugin-ejs";
-import markdownIt from "markdown-it";
 import * as sass from "sass";
 import path from "node:path";
 import fs from "node:fs";
@@ -9,6 +8,7 @@ import moment from "moment";
 
 import * as utils from './lib/utils.js';
 import * as gitutils from './lib/gitutils.js';
+import * as md from './lib/md.js';
 
 const require = createRequire(import.meta.url);
 
@@ -20,10 +20,10 @@ export default async function(eleventyConfig) {
   eleventyConfig.addBundle("js");
 
   // Filters, data
-  const mdLib = markdownIt({ html: true, linkify: true });
-  eleventyConfig.addGlobalData("md", () => (content) => mdLib.render(content));
+  eleventyConfig.addGlobalData("md", () => md.render);
   eleventyConfig.addGlobalData("formatTime", () => (data, fmt) => moment.utc(data).format(fmt));
-  eleventyConfig.addGlobalData("utils", () => utils);
+  eleventyConfig.addGlobalData("extractVersionChanges", () => md.extractVersionChanges);
+  eleventyConfig.addFilter("stripTOC", md.stripTOC);
 
   // Sass Processing
   eleventyConfig.addTemplateFormats("scss");

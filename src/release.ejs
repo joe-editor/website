@@ -68,5 +68,5 @@ eleventyComputed:
 
 <div class="container">
 <h2>Release Notes</h2>
-<%- md(utils.extractVersionChanges(ver, await git.read(versions.info[ver].git.unix || versions.info[ver].git.windows, "NEWS.md"))) %>
+<%- md(extractVersionChanges(ver, await git.read(versions.info[ver].git.unix || versions.info[ver].git.windows, "NEWS.md"))) %>
 </div>

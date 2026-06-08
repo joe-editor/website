@@ -3,7 +3,7 @@ layout: "content.njk"
 ---
 <div class="row">
   <div class="col-sm-8" id="md-contents">
-    {{ content | safe }}
+    {{ content | stripTOC | safe }}
   </div>
   <div class="col-sm-4 offset-sm-8 sidebar hidden-xs-down h-100" style="position:fixed; overflow-x:hidden;">
     <div class="" id="md-toc">
@@ -11,7 +11,12 @@ layout: "content.njk"
   </nav>
 </div>
 
+{% js "defer" %}
+<script src="/js/tocbot.min.js"></script>
+{% endjs %}
+
 {% js %}
+// DOES THIS CHANGE
 tocbot.init({
   tocSelector: '#md-toc',
   contentSelector: '#md-contents',

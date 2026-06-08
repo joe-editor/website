@@ -84,7 +84,7 @@
 
     window.addEventListener('DOMContentLoaded', updateNavbarHeight);
     window.addEventListener('resize', updateNavbarHeight);
-    {% getBundle "js" %}
+    {% getBundle "js" | safe %}
     </script>
   </body>
 </html>

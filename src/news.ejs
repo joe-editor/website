@@ -1,18 +1,19 @@
 ---
 permalink: "NEWS.html"
-layout: "content.njk"
+layout: "base.njk"
 
 title: "Changelog"
 ---
 <% let news = await git.read(versions.info[versions.latestUnix].git.unix, "NEWS.md") %>
+<% let toc = [] %>
 <div class="container">
   <div class="row">
     <div class="col-sm-8">
-      <%- md(news) %>
+      <%- md(news, toc) %>
     </div>
     <nav class="col-sm-3 hidden-sm-down bg-faded sidebar">
       <ul class="nav nav-pills flex-column">
-        <% utils.toc(news).forEach(section => {
+        <% toc.forEach(section => {
                if (section.level == 3) { %>
           <li class="nav-item">
             <a class="nav-link" href="#<%= section.anchor %>"><%= section.text %></a>
