@@ -4,7 +4,7 @@ This repository contains the code necessary to build a bootstrap based
 website for [Joe's Own Editor](https://sf.net/p/joe-editor). It generates
 html from templates, and uses markdown found in the JOE Git repository
 to generate information for releases, copies of the manual, and more. The
-important dependent packages are:
+important dependencies are:
 
 * [11ty/Build Awesome](https://www.11ty.dev/) - Static-site generator
 * [Bootstrap version 5.3.8](https://getbootstrap.com/) -
@@ -22,8 +22,7 @@ important dependent packages are:
 
 ### Pre-setup
 
-Install [Node.js](https://nodejs.org/en/) with
-[nvm](https://github.com/creationix/nvm).  Then install `gulp-cli` globally.
+Install [Node.js](https://nodejs.org/en/) with [nvm](https://github.com/creationix/nvm).
 
 ```sh
 	% nvm install v25.6.0
