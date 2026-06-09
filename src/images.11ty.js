@@ -6,11 +6,12 @@ import * as gitutils from '../lib/gitutils.js';
 
 // Copies all images out of git main and into an img/ directory in the output.
 const gitdir = gitutils.gitdir;
+const cache = {};
 
 export default class GitImageGenerator {
     async data() {
-        const oid = await git.resolveRef({ fs, gitdir, ref: "main" });
-        const files = await git.listFiles({ fs, gitdir, ref: "main" });
+        const oid = await git.resolveRef({ fs, gitdir, cache, ref: "main" });
+        const files = await git.listFiles({ fs, gitdir, cache, ref: "main" });
 
         // Filter for all images
         const images = files.filter(f => f.match(/\.(jpg|jpeg|png|gif|svg|ico)$/i));
@@ -36,7 +37,7 @@ export default class GitImageGenerator {
     }
 
     async render(data) {
-        const { blob } = await git.readBlob({ fs, gitdir, oid: data.image.oid, filepath: data.image.filePath });
+        const { blob } = await git.readBlob({ fs, gitdir, cache, oid: data.image.oid, filepath: data.image.filePath });
         return Buffer.from(blob);
     }
 }

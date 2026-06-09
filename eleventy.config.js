@@ -6,7 +6,6 @@ import fs from "node:fs";
 import { createRequire } from "node:module";
 import moment from "moment";
 
-import * as utils from './lib/utils.js';
 import * as gitutils from './lib/gitutils.js';
 import * as md from './lib/md.js';
 
@@ -39,21 +38,11 @@ export default async function(eleventyConfig) {
     },
   });
 
-  // Vendor JS Shortcode
-  eleventyConfig.addShortcode("addVendorJs", function(packageName) {
-    const filePath = require.resolve(packageName);
-    const content = fs.readFileSync(filePath, "utf8");
-    this.page.addHelperToBundle("js", content);
-    return "";
-  });
-
   // Asset Passthrough
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy({
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
     "node_modules/tocbot/dist/tocbot.min.js": "js/tocbot.min.js",
-    "node_modules/tocbot/dist/tocbot.css": "css/tocbot.css",
-    "node_modules/tocbot/dist/styles.css": "css/tocbotstyles.css",
     "img/favicon.ico": "img/favicon.ico",
   });
 

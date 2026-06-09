@@ -71,7 +71,5 @@ export default async function() {
         }
     }
 
-    version.reload = function() { load(file, version); };
-
     return version;
 }
