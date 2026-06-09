@@ -12,6 +12,14 @@ import * as md from './lib/md.js';
 const require = createRequire(import.meta.url);
 
 export default async function(eleventyConfig) {
+  // Serve on a public interface if --public is specified
+  if (process.argv.includes("--public")) {
+    console.log("Listening on 0.0.0.0 instead.");
+    eleventyConfig.setServerOptions({
+      host: "0.0.0.0",
+    });
+  }
+
   // Plugins
   eleventyConfig.addPlugin(ejsPlugin, { async: true });
   eleventyConfig.addPlugin(RenderPlugin);

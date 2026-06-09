@@ -3,7 +3,11 @@
   "version": "2.0.0",
   "description": "website for JOE's editor",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "dev": "npx @11ty/eleventy --serve",
+    "dev:public": "npx @11ty/eleventy --serve -- --public",
+    "build": "npx @11ty/eleventy"
+  },
   "author": "John J. Jordan <jj@jjjordan.io>",
   "license": "ISC",
   "dependencies": {

@@ -22,8 +22,8 @@ echo ===
 echo ''
 
 # Ensure clean build
-rm -rf dist intermediate
-./node_modules/.bin/gulp || exit $?
+rm -rf _site
+npm run build || exit $?
 
 echo ''
 echo ===
@@ -32,4 +32,4 @@ echo ===
 echo ''
 
 # Upload, pass any commandline arguments (like --dry-run) to rsync
-rsync -azP -e ssh --delete "$@" dist/ $SFUSER@web.sourceforge.net:/home/project-web/joe-editor/htdocs/
+rsync -azP -e ssh --delete "$@" _site/ $SFUSER@web.sourceforge.net:/home/project-web/joe-editor/htdocs/
