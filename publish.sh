@@ -27,7 +27,7 @@ npm run build || exit $?
 
 echo ''
 echo ===
-echo === Rsync-ing dist/ to $SFUSER@web.sourceforge.net
+echo === Rsync-ing _site/ to $SFUSER@web.sourceforge.net
 echo ===
 echo ''
 
