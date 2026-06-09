@@ -1,0 +1,72 @@
+---
+pagination:
+  data: versions.versions
+  size: 1
+  alias: ver
+
+permalink: "<%= ver %>/index.html"
+layout: "base.njk"
+
+eleventyComputed:
+  title: "<%= ver %>"
+  description: "Version <%= ver %>"
+---
+
+<div class="bg-light py-5 mb-4">
+  <div class="container py-5">
+    <div class="row">
+      <h1 class="display-5 fw-bold">JOE <%= ver %></h1>
+    </div>
+    <div class="row">
+<% if (versions.hasUnix(ver)) { %>
+      <p class="fs-4">&raquo; Released on <%= formatTime(versions.info[ver].release.unix, 'DD MMM YYYY') %></p>
+<% } else { %>
+      <p class="fs-4">&raquo; Released on <%= formatTime(versions.info[ver].release.windows, 'DD MMM YYYY') %></p>
+<% } %>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+<% if (versions.hasUnix(ver)) { %>
+      <a class="btn btn-primary btn-lg" type="button" href="<%= versions.info[ver].downloads.unix %>">Download source</a>
+<% } %>
+<% if (versions.hasWindows(ver)) { %>
+      <a class="btn btn-primary btn-lg" type="button" href="<%= versions.info[ver].downloads.windows %>">Download Windows Installer</a>
+<% } %>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Documentation</h2>
+      <p>&raquo; Refer to the <a href="INSTALL.html">installation instructions</a> when building from source.</p>
+      <p>&raquo; Be sure to read the user manual for this version.</p>
+      <p><a class="btn btn-secondary" href="man.html">Read the user manual</a></p>
+    </div>
+    <div class="col-md-6">
+      <h2>Windows version</h2>
+<% if (versions.hasWindows(ver)) { %>
+      <p>&raquo; Released on <%= formatTime(versions.info[ver].release.windows, 'DD MMM YYYY') %></p>
+      <p>&raquo; Download the <a href="<%= versions.info[ver].downloads.windowsSrc %>">Windows source code</a></p>
+<% if (versions.info[ver].downloads.windowsStandalone) { %>
+      <p>&raquo; Download a <a href="<%= versions.info[ver].downloads.windowsStandalone %>">standalone version</a></p>
+<% } %>
+      <p><a class="btn btn-secondary" href="windows.html">Read tips for the Windows version</a></p>
+<% } else { %>
+<%    const nextVersion = versions.newerWindows(ver); %>
+<%    if (nextVersion) { %>
+      <p>There was no Windows release for this version. The next newest version with a windows release is <a href="/<%= nextVersion %>/"><%= nextVersion %></a>.</p>
+<%    } else { %>
+      <p>No Windows release has been made for this version... yet. <i>Stay tuned!</i></p>
+<%    } %>
+<% } %>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container">
+<h2>Release Notes</h2>
+<%- md(extractVersionChanges(ver, await git.read(versions.info[ver].git.unix || versions.info[ver].git.windows, "NEWS.md"))) %>
+</div>

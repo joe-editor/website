@@ -1,15 +1,19 @@
-<%- include('./header.ejs', {versions: versions, title: "Home", description: "Joe's Own Editor"}) -%>
+---
+permalink: "index.html"
+layout: "base.njk"
 
-<div class="jumbotron">
-  <div class="container">
+title: "Home"
+---
+<div class="bg-light p-5 mb-4">
+  <div class="container py-5">
     <div class="row">
       <div class="col-md-8">
-        <h1 class="display-4">JOE - Joe's Own Editor</h1>
+        <h1 class="display-5">JOE - Joe's Own Editor</h1>
       </div>
       <div class="col-md-4">
         <h3 class="display-6">Latest version: <%= versions.latestUnix %></h3>
-        <p>&raquo; Released <%= moment.utc(versions.info[versions.latestUnix].release.unix).format('DD MMM YYYY') %></p>
-        <p><a class="btn btn-secondary" href="/<%= versions.latestUnix %>/">Get this release</a></p>
+        <p class="fs-5">&raquo; Released <%= formatTime(versions.info[versions.latestUnix].release.unix, 'DD MMM YYYY') %></p>
+        <p><a class="btn btn-primary" href="/<%= versions.latestUnix %>/">Get this release</a></p>
       </div>
     </div>
   </div>
@@ -182,4 +186,3 @@
   
   </ul>
 </div>
-<%- include('./footer.ejs') -%>

@@ -1,0 +1,13 @@
+---
+pagination:
+  data: versions.versions
+  size: 1
+  alias: ver
+
+permalink: "<%= ver %>/INSTALL.html"
+layout: docs.njk
+
+title: Installation instructions
+---
+
+<%- md(await git.readFirst(versions.info[ver].git.unix || versions.info[ver].git.windows, ["INSTALL.md", "INSTALL"])) %>

@@ -1,0 +1,76 @@
+// Override flatly's caret alignment to nudge it upwards slightly.
+$caret-vertical-align: 0.12em;
+
+// Bootstrap core functions
+@import "bootstrap/scss/functions";
+
+// Variable overrides
+@import "bootswatch/dist/flatly/variables";
+
+// The rest of bootstrap core config
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// Structural bootstrap components
+@import "bootstrap/scss/bootstrap";
+
+// Custom component overrides
+@import "bootswatch/dist/flatly/bootswatch";
+
+// Custom styles if any ...
+
+h2, h3, .nav-target {
+  scroll-margin-top: var(--nav-height, 85px);
+}
+
+// TOCbot
+
+@import "tocbot/src/scss/_tocbot-core"; 
+
+#md-toc {
+  top: var(--nav-height, 85px);
+  max-height: calc(100vh - var(--nav-height, 85px));
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  // Wipe out browser layout numbers completely
+  ol.toc-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  // Base styling for each TOC anchor link
+  .toc-link {
+    padding: $spacer * 0.25 $spacer * 0.75;
+    color: $transition-base;
+    color: $body-color;
+    font-size: $font-size-base * 0.9;
+    text-decoration: none;
+    border-left: 2px solid transparent; // Reserve space for active state border
+
+    &:hover {
+      color: $link-hover-color;
+    }
+  }
+
+  // Indent nested child links smoothly (e.g., H3 headings)
+  .toc-list .toc-list {
+    padding-left: $spacer * 1;
+
+    .toc-link {
+      font-size: $font-size-base * 0.85;
+    }
+  }
+
+  // Dynamic Scrollspy Active State Class handled by Tocbot
+  .is-active-link {
+    font-weight: $font-weight-semibold;
+    color: $primary;
+    border-left-color: $primary; // Reveals the sidebar accent indicator
+    background-color: rgba($primary, 0.04);
+  }
+}

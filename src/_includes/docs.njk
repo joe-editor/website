@@ -1,0 +1,38 @@
+---
+layout: "content.njk"
+---
+<div class="row">
+  <div class="col-sm-8" id="md-contents">
+    {{ content | stripTOC | safe }}
+  </div>
+  <div class="col-sm-4 d-none d-sm-block">
+    <nav class="pt-3 sticky-top" id="md-toc"></nav>
+  </div>
+</div>
+
+{% js "defer" %}
+<script src="/js/tocbot.min.js"></script>
+{% endjs %}
+
+{% js %}
+tocbot.init({
+  tocSelector: '#md-toc',
+  contentSelector: '#md-contents',
+  headingSelector: 'h2, h3, h4',
+  scrollContainer: 'body',
+  scrollSmooth: true,
+});
+
+layoutbus.addEventListener("navResize", ev => {
+  const height = ev.detail.height;
+  tocbot.refresh({
+    tocSelector: '#md-toc',
+    contentSelector: '#md-contents',
+    headingSelector: 'h2, h3, h4',
+    scrollContainer: 'body',
+    scrollSmooth: true,
+    headingsOffset: height + 5,
+    scrollSmoothOffset: -(height + 5),
+  });
+});
+{% endjs %}

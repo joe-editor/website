@@ -1,0 +1,19 @@
+---js
+{
+  pagination: {
+    data: "versions.versions",
+    size: 1,
+    alias: "ver",
+    before: function(pagitems, fulldata) {
+      return pagitems.filter(v => fulldata.versions.hasWindows(v));
+    },
+  },
+
+  permalink: "<%= ver %>/windows.html",
+  layout: "docs.njk",
+
+  title: "Windows tips",
+}
+---
+
+<%- md(await git.read(versions.info[ver].git.windows, "docs/windows.md")) %>
