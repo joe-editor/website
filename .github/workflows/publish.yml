@@ -5,9 +5,11 @@ on:
     branches:
       - main
       - test-workflow
+  pull_request: {}
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   build-and-publish:
@@ -29,7 +31,9 @@ jobs:
         run: npm run build
 
       - name: Publish site
-        run: npx wrangler pages deploy _site --project-name joe-editor-web
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        id: deploy
+        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        command: pages deploy _site --project-name joe-editor-web
